@@ -7,7 +7,7 @@ services:
     depends_on:
       - mstats-app
     ports:
-      - 5959:80
+      - 8102:80
     volumes:
       - ./:/src
 
@@ -34,6 +34,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=mstats
+      - TZ=Asia/Tokyo
     ports:
       - 13306:3306
 
