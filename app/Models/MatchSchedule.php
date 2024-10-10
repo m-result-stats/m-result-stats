@@ -69,4 +69,16 @@ class MatchSchedule extends Model
             }
         );
     }
+
+    /**
+     * キャストする属性の取得
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'match_date' => 'datetime',
+        ];
+    }
 }
