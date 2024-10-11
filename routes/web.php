@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\MatchResultController;
 use App\Http\Controllers\MatchScheduleController;
 use App\Http\Controllers\PlayerAffiliationController;
 use App\Http\Controllers\TeamController;
 use App\Http\Middleware\PlayerAffiliationIndexMiddleware;
 use App\Http\Middleware\MatchScheduleIndexMiddleware;
+use App\Http\Middleware\MatchResultIndexMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -27,6 +29,13 @@ route::get('/match-schedules', [MatchScheduleController::class, 'index'])
         MatchScheduleIndexMiddleware::class
     ])->
     name('match-schedules');
+
+// 試合日程
+route::get('/match-results', [MatchResultController::class, 'index'])
+    ->middleware([
+        MatchResultIndexMiddleware::class
+    ])->
+    name('match-results');
 
 Route::get('/bootstrap', function () {
     return view('bootstrap');
