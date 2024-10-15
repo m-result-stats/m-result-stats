@@ -1,12 +1,7 @@
 <!doctype html>
 <html>
 
-<head>
-    <meta charset='utf-8' />
-    <title>試合成績一覧</title>
-
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-</head>
+<x-header title="試合成績一覧" />
 
 <body @class([
     'container-lg',

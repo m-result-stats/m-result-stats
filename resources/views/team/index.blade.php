@@ -1,11 +1,7 @@
 <!doctype html>
 <html>
 
-<head>
-    <meta charset='utf-8' />
-
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-</head>
+<x-header title="チーム一覧" />
 
 <body>
     <table class="table table-striped table-hover caption-top">

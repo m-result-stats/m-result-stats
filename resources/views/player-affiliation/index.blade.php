@@ -1,12 +1,7 @@
 <!doctype html>
 <html>
 
-<head>
-    <meta charset='utf-8' />
-    <title>選手所属一覧</title>
-
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-</head>
+<x-header title="選手所属一覧" />
 
 <body>
     <form action="{{ route('player-affiliations') }}" method="get">
