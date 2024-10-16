@@ -4,9 +4,11 @@ use App\Http\Controllers\MatchResultController;
 use App\Http\Controllers\MatchScheduleController;
 use App\Http\Controllers\PlayerAffiliationController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\TeamRankingController;
 use App\Http\Middleware\PlayerAffiliationIndexMiddleware;
 use App\Http\Middleware\MatchScheduleIndexMiddleware;
 use App\Http\Middleware\MatchResultIndexMiddleware;
+use App\Http\Middleware\TeamRankingIndexMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -36,6 +38,13 @@ route::get('/match-results', [MatchResultController::class, 'index'])
         MatchResultIndexMiddleware::class
     ])->
     name('match-results');
+
+// チームランキング
+route::get('/team-ranking', [TeamRankingController::class, 'index'])
+    ->middleware([
+        TeamRankingIndexMiddleware::class
+    ])->
+    name('team-ranking');
 
 Route::get('/bootstrap', function () {
     return view('bootstrap');

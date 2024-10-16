@@ -1,3 +1,13 @@
 {
-
+    "MatchCategory": "試合カテゴリー",
+    "Point": "ポイント",
+    "PointGap": "差",
+    "Ranking": "順位",
+    "RankingBreakdown": "順位内訳",
+    "Search": "検索",
+    "Season": "シーズン",
+    "Team": "チーム",
+    "TeamName": "チーム名",
+    "TeamRanking": "チームランキング",
+    "ZzzDummy": ""
 }

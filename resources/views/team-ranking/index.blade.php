@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 
-<x-header title="チームランキング" />
+<x-header title="{{ __('TeamRanking') }}" />
 
 <body @class([
     'container-lg',
@@ -15,14 +15,13 @@
             <label for="season_id" @class([
                 'col-sm-2',
                 'col-form-label'
-            ])>シーズン</label>
+            ])>{{ __('Season') }}</label>
             <div @class([
                 'col-sm-10'
             ])>
                 <select @class([
                     'form-select'
                 ]) name="season_id" id="season_id">
-                    <option value=""></option>
                     @foreach ($request->seasons as $season)
                         <option value="{{ $season->season_id }}" @selected($request->season_id == $season->season_id)>
                             {{ $season->season_name }}
@@ -32,10 +31,35 @@
             </div>
         </div>
 
+        {{-- 試合カテゴリー --}}
+        <div @class([
+            'row',
+            'mb-3',
+        ])>
+            <label for="match_category_id" @class([
+                'col-sm-2',
+                'col-form-label'
+            ])>{{ __('MatchCategory') }}</label>
+            <div @class([
+                'col-sm-10'
+            ])>
+                <select @class([
+                    'form-select'
+                ]) name="match_category_id" id="match_category_id">
+                    <option value=""></option>
+                    @foreach ($request->match_categories as $match_category)
+                        <option value="{{ $match_category->match_category_id }}" @selected($request->match_category_id == $match_category->match_category_id)>
+                            {{ $match_category->match_category_name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
         <button type="submit" @class([
             'btn',
             'btn-primary',
-        ])>検索</button>
+        ])>{{ __('Search') }}</button>
     </form>
     {{--  --}}
     <div @class([
@@ -43,29 +67,28 @@
     ])>
         <table @class([
             'table',
-            'table-striped',
             'table-hover',
             'caption-top',
         ])>
-            <caption>試合成績一覧</caption>
+            <caption>{{ __('TeamRanking') }}</caption>
             {{-- ヘッダー --}}
             <thead>
                 <tr>
                     <th @class([
                         'text-center',
-                    ])>順位</th>
+                    ])>{{ __('Ranking') }}</th>
                     <th @class([
                         'text-center',
-                    ])>チーム名</th>
+                    ])>{{ __('TeamName') }}</th>
                     <th @class([
                         'text-end',
-                    ])>ポイント</th>
+                    ])>{{ __('Point') }}</th>
                     <th @class([
                         'text-end',
-                    ])>差</th>
+                    ])>{{ __('PointGap') }}</th>
                     <th @class([
                         'text-center',
-                    ])>順位詳細</th>
+                    ])>{{ __('RankingBreakdown') }}</th>
                 </tr>
             </thead>
             {{-- 詳細 --}}
@@ -80,13 +103,10 @@
                     <td @class([
                         'text-center',
                     ])>{{ $team_ranking->team->team_name }}</td>
-                    @php
-                        $isMinus = $team_ranking->sum_point < 0 ? true : false;
-                    @endphp
                     {{-- ポイント --}}
                     <td @class([
                         'text-end',
-                        'text-danger' => $isMinus, // マイナスポイントの場合は赤字にする
+                        'text-danger' => $team_ranking->sum_point < 0, // マイナスポイントの場合は赤字にする
                     ])>{{ $team_ranking->sum_point }}</td>
                     {{-- 差 --}}
                     <td @class([
@@ -96,7 +116,7 @@
                         @if ($loop->first)
                             {{ '-' }}
                         @else
-                            {{ $sum_point_old - $team_ranking->sum_point }}
+                            {{ bcsub($sum_point_old, $team_ranking->sum_point, 1) }}
                         @endif
                     </td>
                     @php
