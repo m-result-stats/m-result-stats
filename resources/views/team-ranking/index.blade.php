@@ -3,7 +3,7 @@
 
 <x-header title="{{ __('TeamRanking') }}" />
 
-<body @class([
+<body data-bs-theme="dark" @class([
     'container-lg',
 ])>
     <form action="{{ url()->current() }}" method="get">
@@ -100,8 +100,15 @@
                         'text-center',
                     ])>{{ $team_ranking->team_rank }}</td>
                     {{-- チーム名 --}}
+                    @php
+                        $team_color = $team_ranking->team->team_color;
+                        $background_color = "background-color: #{$team_color}";
+                    @endphp
                     <td @class([
                         'text-center',
+                    ])
+                    @style([
+                        $background_color,
                     ])>{{ $team_ranking->team->team_name }}</td>
                     {{-- ポイント --}}
                     <td @class([
