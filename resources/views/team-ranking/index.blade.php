@@ -8,53 +8,10 @@
 ])>
     <form action="{{ url()->current() }}" method="get">
         {{-- シーズン --}}
-        <div @class([
-            'row',
-            'mb-3',
-        ])>
-            <label for="season_id" @class([
-                'col-sm-2',
-                'col-form-label'
-            ])>{{ __('Season') }}</label>
-            <div @class([
-                'col-sm-10'
-            ])>
-                <select @class([
-                    'form-select'
-                ]) name="season_id" id="season_id">
-                    @foreach ($request->seasons as $season)
-                        <option value="{{ $season->season_id }}" @selected($request->season_id == $season->season_id)>
-                            {{ $season->season_name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
+        <x-season-list :season-id="$request->season_id" :seasons="$request->seasons" />
 
         {{-- 試合カテゴリー --}}
-        <div @class([
-            'row',
-            'mb-3',
-        ])>
-            <label for="match_category_id" @class([
-                'col-sm-2',
-                'col-form-label'
-            ])>{{ __('MatchCategory') }}</label>
-            <div @class([
-                'col-sm-10'
-            ])>
-                <select @class([
-                    'form-select'
-                ]) name="match_category_id" id="match_category_id">
-                    <option value=""></option>
-                    @foreach ($request->match_categories as $match_category)
-                        <option value="{{ $match_category->match_category_id }}" @selected($request->match_category_id == $match_category->match_category_id)>
-                            {{ $match_category->match_category_name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
+        <x-match-category-list :match-category-id="$request->match_category_id" :match-categories="$request->match_categories" />
 
         <button type="submit" @class([
             'btn',
