@@ -82,4 +82,42 @@ class MatchResult extends Model
             }
         );
     }
+
+    /**
+     * トップ率を取得する ※順位1 / 試合数
+     *
+     * rank1というカラムは存在しないので、取得時に生成する必要がある
+     */
+    public function topRatio(): Attribute
+    {
+        return Attribute::make(
+            get: function(mixed $value, array $attributes) {
+                $topRatio = $attributes['rank1'] / $attributes['match_count'] * 100;
+                return sprintf("%.1f%%", $topRatio);
+            }
+        );
+    }
+
+    /**
+     * ラス回避率を取得する ※順位1+順位2+順位3 / 試合数
+     *
+     * rank1というカラムは存在しないので、取得時に生成する必要がある
+     */
+    public function avoidBottomRatio(): Attribute
+    {
+        return Attribute::make(
+            get: function(mixed $value, array $attributes) {
+                $notBottom = (function () use ($attributes) {
+                    $rank = 0;
+                    for ($i=1; $i < 4; $i++) {
+                        $column = "rank{$i}";
+                        $rank += $attributes[$column];
+                    }
+                    return $rank;
+                })();
+                $topRatio = $notBottom / $attributes['match_count'] * 100;
+                return sprintf("%.1f%%", $topRatio);
+            }
+        );
+    }
 }

@@ -1,5 +1,8 @@
 {
+    "AvoidBottomRatio": "ラス回避率",
     "MatchCategory": "試合カテゴリー",
+    "PlayerName": "選手名",
+    "PlayerRanking": "選手ランキング",
     "Point": "ポイント",
     "PointGap": "差",
     "Ranking": "順位",
@@ -9,5 +12,6 @@
     "Team": "チーム",
     "TeamName": "チーム名",
     "TeamRanking": "チームランキング",
+    "TopRatio": "トップ率",
     "ZzzDummy": ""
 }
