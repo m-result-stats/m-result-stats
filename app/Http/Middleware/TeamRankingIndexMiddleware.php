@@ -6,6 +6,7 @@ use App\Models\MatchCategory;
 use App\Models\MatchResult;
 use App\Models\PlayerAffiliation;
 use App\Models\Season;
+use App\Traits\CommonFunctionsTrait;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\JoinClause;
@@ -14,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TeamRankingIndexMiddleware
 {
+    use CommonFunctionsTrait;
     /**
      * Handle an incoming request.
      *
@@ -24,6 +26,11 @@ class TeamRankingIndexMiddleware
         // ====================
         // ここに前処理を記述
         // ====================
+        // クエリパラメータが存在しない場合を考慮して、クエリパラメータの追加
+        $this->addQueryParameter($request, [
+            'season_id' => 0,
+            'match_category_id' => 0,
+        ]);
 
         // マスタの取得
         $request->merge([

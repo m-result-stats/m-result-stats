@@ -17,12 +17,10 @@ trait CommonFunctionsTrait
      */
     public function addQueryParameter(Request $request, array $addQueryParameters)
     {
-        foreach ($addQueryParameters as $addQueryParameter) {
-            if ($request->query($addQueryParameter) == null) {
-                $request->merge([
-                    $addQueryParameter => 0,
-                ]);
-            }
+        foreach ($addQueryParameters as $key => $value) {
+            $request->mergeIfMissing([
+                $key => $value,
+            ]);
         }
     }
 }
