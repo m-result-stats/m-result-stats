@@ -7,16 +7,18 @@
     'container-lg',
 ])>
     <form action="{{ url()->current() }}" method="get">
-        {{-- シーズン --}}
-        <x-season-list :season-id="$request->season_id" :seasons="$request->seasons" />
+        <div class="card card-body">
+            {{-- シーズン --}}
+            <x-season-list :season-id="$request->season_id" :seasons="$request->seasons" />
 
-        {{-- 試合カテゴリー --}}
-        <x-match-category-list :match-category-id="$request->match_category_id" :match-categories="$request->match_categories" />
+            {{-- 試合カテゴリー --}}
+            <x-match-category-list :match-category-id="$request->match_category_id" :match-categories="$request->match_categories" />
 
-        <button type="submit" @class([
-            'btn',
-            'btn-primary',
-        ])>{{ __('Search') }}</button>
+            <button type="submit" @class([
+                'btn',
+                'btn-primary',
+            ])>{{ __('Search') }}</button>
+        </div>
     </form>
     {{--  --}}
     <div @class([
