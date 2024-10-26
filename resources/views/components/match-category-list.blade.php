@@ -12,7 +12,7 @@
         <select @class([
             'form-select'
         ]) name="match_category_id" id="match_category_id">
-            <option value=""></option>
+            @if ($isAddEmpty) <option value=""></option> @endif
             @foreach ($matchCategories as $match_category)
                 <option value="{{ $match_category->match_category_id }}" @selected($matchCategoryId == $match_category->match_category_id)>
                     {{ $match_category->match_category_name }}

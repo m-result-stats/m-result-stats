@@ -17,10 +17,12 @@ class MatchCategoryList extends Component
      *
      * @param string $matchCategoryId 選択された試合カテゴリID
      * @param Collection $matchCategories DBから取得した試合カテゴリ
+     * @param boolean $isAddEmpty リストに空白を追加するか
      */
     public function __construct(
-        public string $matchCategoryId,
+        public ?string $matchCategoryId,
         public Collection $matchCategories,
+        public bool $isAddEmpty = false,
     )
     {
     }

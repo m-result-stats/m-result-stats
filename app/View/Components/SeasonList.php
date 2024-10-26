@@ -17,10 +17,12 @@ class SeasonList extends Component
      *
      * @param string $seasonId 選択されたシーズンID
      * @param Collection $seasons DBから取得したシーズン
+     * @param boolean $isAddEmpty リストに空白を追加するか
      */
     public function __construct(
-        public string $seasonId,
+        public ?string $seasonId,
         public Collection $seasons,
+        public bool $isAddEmpty = false,
     )
     {
     }
