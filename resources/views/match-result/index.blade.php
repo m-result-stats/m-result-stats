@@ -3,6 +3,8 @@
 
 <x-header title="試合成績一覧" />
 
+<x-sidebar />
+
 <body @class([
     'container-lg',
 ])>

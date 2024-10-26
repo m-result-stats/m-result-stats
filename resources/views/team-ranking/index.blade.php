@@ -3,6 +3,8 @@
 
 <x-header title="{{ __('TeamRanking') }}" />
 
+<x-sidebar />
+
 <body data-bs-theme="dark" @class([
     'container-lg',
 ])>

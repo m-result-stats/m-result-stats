@@ -3,6 +3,8 @@
 
 <x-header title="選手所属一覧" />
 
+<x-sidebar />
+
 <body>
     <form action="{{ route('player-affiliations') }}" method="get">
         {{-- チーム --}}

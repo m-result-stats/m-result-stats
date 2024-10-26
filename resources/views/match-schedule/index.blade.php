@@ -3,6 +3,8 @@
 
 <x-header title="試合日程一覧" />
 
+<x-sidebar />
+
 <body>
     <form action="{{ route('match-schedules') }}" method="get">
         {{-- シーズン --}}
