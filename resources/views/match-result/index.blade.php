@@ -36,29 +36,7 @@
             </div>
 
             {{-- 選手 --}}
-            <div @class([
-                'row',
-                'mb-3',
-            ])>
-                <label for="player_id" @class([
-                    'col-sm-2',
-                    'col-form-label',
-                ])>選手</label>
-                <div @class([
-                    'col-sm-10'
-                ])>
-                    <select @class([
-                        'form-select'
-                    ]) name="player_id" id="player_id">
-                        <option value=""></option>
-                        @foreach ($request->players as $player)
-                            <option value="{{ $player->player_id }}" @selected($request->player_id == $player->player_id)>
-                                {{ $player->player_name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
+            <x-player-list :player-id="$request->player_id" :players="$request->players" :is-add-empty=true />
 
             <button type="submit" @class([
                 'btn',
