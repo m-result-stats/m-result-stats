@@ -1,87 +1,88 @@
 <!doctype html>
 <html>
 
-<x-header title="試合成績一覧" />
+<x-header title="{{ __('MatchResult') }}" />
 
 <x-sidebar />
 
-<body @class([
+<body data-bs-theme="dark" @class([
     'container-lg',
 ])>
-    <form action="{{ route('match-results') }}" method="get">
-        {{-- シーズン --}}
-        <div @class([
-            'row',
-            'mb-3',
-        ])>
-            <label for="season_id" @class([
-                'col-sm-2',
-                'col-form-label'
-            ])>シーズン</label>
+    <form action="{{ url()->current() }}" method="get">
+        <div class="card card-body">
+            {{-- シーズン --}}
             <div @class([
-                'col-sm-10'
+                'row',
+                'mb-3',
             ])>
-                <select @class([
-                    'form-select'
-                ]) name="season_id" id="season_id">
-                    <option value=""></option>
-                    @foreach ($request->seasons as $season)
-                        <option value="{{ $season->season_id }}" @selected($request->season_id == $season->season_id)>
-                            {{ $season->season_name }}
-                        </option>
-                    @endforeach
-                </select>
+                <label for="season_id" @class([
+                    'col-sm-2',
+                    'col-form-label'
+                ])>シーズン</label>
+                <div @class([
+                    'col-sm-10'
+                ])>
+                    <select @class([
+                        'form-select'
+                    ]) name="season_id" id="season_id">
+                        <option value=""></option>
+                        @foreach ($request->seasons as $season)
+                            <option value="{{ $season->season_id }}" @selected($request->season_id == $season->season_id)>
+                                {{ $season->season_name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
-        </div>
 
-        {{-- 選手 --}}
-        <div @class([
-            'row',
-            'mb-3',
-        ])>
-            <label for="player_id" @class([
-                'col-sm-2',
-                'col-form-label',
-            ])>選手</label>
+            {{-- 選手 --}}
             <div @class([
-                'col-sm-10'
+                'row',
+                'mb-3',
             ])>
-                <select @class([
-                    'form-select'
-                ]) name="player_id" id="player_id">
-                    <option value=""></option>
-                    @foreach ($request->players as $player)
-                        <option value="{{ $player->player_id }}" @selected($request->player_id == $player->player_id)>
-                            {{ $player->player_name }}
-                        </option>
-                    @endforeach
-                </select>
+                <label for="player_id" @class([
+                    'col-sm-2',
+                    'col-form-label',
+                ])>選手</label>
+                <div @class([
+                    'col-sm-10'
+                ])>
+                    <select @class([
+                        'form-select'
+                    ]) name="player_id" id="player_id">
+                        <option value=""></option>
+                        @foreach ($request->players as $player)
+                            <option value="{{ $player->player_id }}" @selected($request->player_id == $player->player_id)>
+                                {{ $player->player_name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
-        </div>
 
-        <button type="submit" @class([
-            'btn',
-            'btn-primary',
-        ])>検索</button>
+            <button type="submit" @class([
+                'btn',
+                'btn-primary',
+            ])>{{ __('Search') }}</button>
+        </div>
     </form>
     <div @class([
         'table-responsive',
     ])>
         <table @class([
             'table',
-            'table-striped',
             'table-hover',
             'caption-top',
         ])>
-            <caption>試合成績一覧</caption>
+            <caption>{{ __('MatchResult') }}</caption>
             <thead>
                 <tr>
-                    <th scope="col">シーズン</th>
-                    <th scope="col">試合日</th>
-                    <th scope="col">順位</th>
-                    <th scope="col">選手名</th>
-                    <th scope="col">ポイント</th>
-                    <th scope="col">ペナルティ</th>
+                    <th scope="col">{{ __('Season') }}</th>
+                    <th>{{ __('MatchDate') }}</th>
+                    <th>{{ __('Ranking') }}</th>
+                    <th>{{ __('PlayerName') }}</th>
+                    <th>{{ __('Point') }}</th>
+                    <th>{{ __('Penalty') }}</th>
                 </tr>
             </thead>
             <tbody>
