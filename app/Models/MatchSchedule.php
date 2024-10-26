@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,6 +23,14 @@ class MatchSchedule extends Model
     protected $keyType = 'date';
 
     /**
+     * Prepare a date for array / JSON serialization.
+     */
+    protected function serializeDate(DateTimeInterface $date): string
+    {
+        return $date->format('Y-m-d');
+    }
+
+    /**
      * シーズンテーブルとの結合
      */
     public function season(): HasOne
@@ -35,6 +44,14 @@ class MatchSchedule extends Model
     public function match_category(): HasOne
     {
         return $this->HasOne(MatchCategory::class, 'match_category_id', 'match_category_id');
+    }
+
+    /**
+     * 試合情報テーブルとの結合
+     */
+    public function matchInformation(): HasOne
+    {
+        return $this->HasOne(MatchInformation::class, 'match_date', 'match_date');
     }
 
     /**
