@@ -11,30 +11,10 @@
     <form action="{{ url()->current() }}" method="get">
         <div class="card card-body">
             {{-- チーム --}}
-            <div class="mb-3">
-                <label for="team_id" class="form-label">チーム</label>
-                <select name="team_id" class="form-select" id="team_id">
-                    <option value=""></option>
-                    @foreach ($request->teams as $team)
-                        <option value="{{ $team->team_id }}" @selected($request->team_id == $team->team_id)>
-                            {{ $team->team_name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
+            <x-team-list :team-id="$request->team_id" :teams="$request->teams" />
 
             {{-- シーズン --}}
-            <div class="mb-3">
-                <label for="season_id" class="form-label">シーズン</label>{{ old('season_id') }}
-                <select name="season_id" class="form-select" id="season_id">
-                    <option value=""></option>
-                    @foreach ($request->seasons as $season)
-                        <option value="{{ $season->season_id }}" @selected($request->season_id == $season->season_id)>
-                            {{ $season->season_name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
+            <x-season-list :season-id="$request->season_id" :seasons="$request->seasons" />
 
             <button type="submit" @class([
                 'btn',

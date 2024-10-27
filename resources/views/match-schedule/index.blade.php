@@ -11,30 +11,10 @@
     <form action="{{ url()->current() }}" method="get">
         <div class="card card-body">
             {{-- シーズン --}}
-            <div class="mb-3">
-                <label for="season_id" class="form-label">シーズン</label>{{ old('season_id') }}
-                <select name="season_id" class="form-select" id="season_id">
-                    <option value=""></option>
-                    @foreach ($request->seasons as $season)
-                        <option value="{{ $season->season_id }}" @selected($request->season_id == $season->season_id)>
-                            {{ $season->season_name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
+            <x-season-list :season-id="$request->season_id" :seasons="$request->seasons" />
 
             {{-- 試合区分 --}}
-            <div class="mb-3">
-                <label for="match_category_id" class="form-label">試合区分</label>
-                <select name="match_category_id" class="form-select" id="match_category_id">
-                    <option value=""></option>
-                    @foreach ($request->match_categories as $match_category)
-                        <option value="{{ $match_category->match_category_id }}" @selected($request->match_category_id == $match_category->match_category_id)>
-                            {{ $match_category->match_category_name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
+            <x-match-category-list :match-category-id="$request->match_category_id" :match-categories="$request->match_categories" />
 
             <button type="submit" @class([
                 'btn',
