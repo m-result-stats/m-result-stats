@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\PlayerAffiliation;
 use App\Models\Season;
 use App\Models\Team;
+use App\Traits\CommonFunctionsTrait;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PlayerAffiliationIndexMiddleware
 {
+    use CommonFunctionsTrait;
     /**
      * Handle an incoming request.
      *
@@ -20,6 +22,11 @@ class PlayerAffiliationIndexMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         // ここに前処理を記述
+        // クエリパラメータが存在しない場合を考慮して、クエリパラメータの追加
+        $this->addQueryParameter($request, [
+            'season_id' => -1,
+            'team_id' => -1,
+        ]);
 
         // マスタの取得
         $request->merge([
@@ -27,19 +34,17 @@ class PlayerAffiliationIndexMiddleware
             'teams' => Team::get(),
         ]);
 
-        $season_id = $request->season_id;
-        $team_id = $request->team_id;
         // 選手所属一覧の取得
         $player_affiliations = PlayerAffiliation::with([
             'player',
             'season',
             'team',
         ])
-        ->when($season_id, function (Builder $query, int $season_id) {
-            $query->equalSeasonId($season_id);
+        ->when($request->season_id, function (Builder $query) use ($request) {
+            $query->equalSeasonId($request->season_id);
         })
-        ->when($team_id, function (Builder $query, int $team_id) {
-            $query->equalTeamId($team_id);
+        ->when($request->team_id, function (Builder $query) use ($request) {
+            $query->equalTeamId($request->team_id);
         })
         ->orderBy('team_id')
         ->orderBy('season_id')

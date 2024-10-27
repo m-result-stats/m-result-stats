@@ -25,6 +25,7 @@ class MatchResultIndexMiddleware
         // ここに前処理を記述
         // ====================
         // クエリパラメータが存在しない場合を考慮して、クエリパラメータの追加
+        // 検索結果が0件になるように-1を指定している
         $this->addQueryParameter($request, [
             'season_id' => -1,
             'player_id' => -1,

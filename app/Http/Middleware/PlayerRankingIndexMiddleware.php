@@ -80,9 +80,7 @@ class PlayerRankingIndexMiddleware
         })
         ->whereHas('matchInformation.matchSchedule', function (Builder $query) use ($request) {
             $query->equalSeasonId($request->season_id); // シーズンでの絞り込み
-            $query->when($request->match_category_id, function (Builder $query) use ($request) {
-                $query->equalMatchCategoryId($request->match_category_id); // 試合カテゴリーでの絞り込み
-            });
+            $query->equalMatchCategoryId($request->match_category_id); // 試合カテゴリーでの絞り込み
         })
         ->groupBy('player_id')
         ->orderBy('sum_point', 'desc')
