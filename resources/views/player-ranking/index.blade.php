@@ -46,6 +46,9 @@
                     ])>{{ __('TeamName') }}</th>
                     <th @class([
                         'text-end',
+                    ])>{{ __('MatchCount') }}</th>
+                    <th @class([
+                        'text-end',
                     ])>{{ __('Point') }}</th>
                     <th @class([
                         'text-end',
@@ -80,6 +83,9 @@
                     @style([
                         $background_color,
                     ])>{{ $team_ranking->playerAffiliation->team->team_name }}</td>
+                    <td @class([
+                        'text-end',
+                    ])>{{$team_ranking->match_count}}</td>
                     {{-- ポイント --}}
                     <td @class([
                         'text-end',

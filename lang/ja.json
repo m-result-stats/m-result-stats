@@ -1,6 +1,7 @@
 {
     "AvoidBottomRatio": "ラス回避率",
     "MatchCategory": "試合カテゴリー",
+    "MatchCount": "試合数",
     "MatchDate": "試合日",
     "MatchResult": "試合成績",
     "MatchSchedule": "試合日程",
