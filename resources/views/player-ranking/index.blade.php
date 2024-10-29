@@ -72,8 +72,7 @@
                     ])>{{ $team_ranking->player->player_name }}</td>
                     {{-- チーム名 --}}
                     @php
-                        $team_color = $team_ranking->playerAffiliation->team->team_color;
-                        $background_color = "background-color: #{$team_color}";
+                        $background_color = "background-color: #{$team_ranking->playerAffiliation->team->team_color_to_text}";
                     @endphp
                     <td @class([
                         'text-center',
