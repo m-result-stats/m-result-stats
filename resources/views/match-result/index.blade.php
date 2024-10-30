@@ -13,6 +13,12 @@
             {{-- シーズン --}}
             <x-season-list :season-id="$request->season_id" :seasons="$request->seasons" />
 
+            {{-- 試合カテゴリ --}}
+            <x-match_category-list :match_category-id="$request->match_category_id" :match_categories="$request->match_categories" :is-add-empty=true />
+
+            {{-- チーム --}}
+            <x-team-list :team-id="$request->team_id" :teams="$request->teams" :is-add-empty=true />
+
             {{-- 選手 --}}
             <x-player-list :player-id="$request->player_id" :players="$request->players" :is-add-empty=true />
 
@@ -33,28 +39,63 @@
             <caption>{{ __('MatchResult') }}</caption>
             <thead>
                 <tr>
-                    <th scope="col">{{ __('Season') }}</th>
-                    <th>{{ __('MatchDate') }}</th>
-                    <th>{{ __('Ranking') }}</th>
-                    <th>{{ __('PlayerName') }}</th>
-                    <th>{{ __('Point') }}</th>
-                    <th>{{ __('Penalty') }}</th>
+                    <th @class([
+                        'text-center',
+                    ])>{{ __('Season') }}</th>
+                    <th @class([
+                        'text-center',
+                    ])>{{ __('MatchCategory') }}</th>
+                    <th @class([
+                        'text-center',
+                    ])>{{ __('MatchDate') }}</th>
+                    <th @class([
+                        'text-center',
+                    ])>{{ __('Ranking') }}</th>
+                    <th @class([
+                        'text-center',
+                    ])>{{ __('PlayerName') }}</th>
+                    <th @class([
+                        'text-center',
+                    ])>{{ __('TeamName') }}</th>
+                    <th @class([
+                        'text-end',
+                    ])>{{ __('Point') }}</th>
+                    <th @class([
+                        'text-end',
+                    ])>{{ __('Penalty') }}</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($request->match_results as $match_result)
                 <tr>
-                    <td>{{ $match_result->matchInformation->matchSchedule->season->season_name }}</td>
-                    <td>{{ $match_result->matchInformation->match_date_order_display }}</td>
-                    <td>{{ $match_result->rank }}</td>
-                    <td>{{ $match_result->player->player_name ?? null }}</td>
+                    <td @class([
+                        'text-center',
+                    ])>{{ $match_result->matchInformation->matchSchedule->season->season_name }}</td>
+                    <td @class([
+                        'text-center',
+                    ])>{{ $match_result->matchInformation->matchSchedule->matchCategory->match_category_name }}</td>
+                    <td @class([
+                        'text-center',
+                    ])>{{ $match_result->matchInformation->match_date_order_display }}</td>
+                    <td @class([
+                        'text-center',
+                    ])>{{ $match_result->rank }}</td>
+                    <td @class([
+                        'text-center',
+                    ])>{{ $match_result->playerAffiliation->player->player_name}}</td>
                     @php
-                        $isMinus = $match_result->point < 0 ? true : false;
+                        $background_color = "background-color: #{$match_result->playerAffiliation->team->team_color_to_text}";
                     @endphp
+                    <td @class([
+                        'text-center',
+                    ])
+                    @style([
+                        $background_color,
+                    ])>{{ $match_result->playerAffiliation->team->team_name }}</td>
                     {{-- ポイント --}}
                     <td @class([
                         'text-end',
-                        'text-danger' => $isMinus, // マイナスポイントの場合は赤字にする
+                        'text-danger' => $match_result->point < 0, // マイナスポイントの場合は赤字にする
                     ])>{{ $match_result->point }}</td>
                     {{-- ペナルティ --}}
                     <td @class([

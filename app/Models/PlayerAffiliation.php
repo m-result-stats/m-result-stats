@@ -55,4 +55,12 @@ class PlayerAffiliation extends Model
     {
         $query->where('team_id', $value);
     }
+
+    /**
+     * 選手での絞り込み
+     */
+    public function scopeEqualPlayerId(Builder $query, int $value): void
+    {
+        $query->where('player_id', $value);
+    }
 }
