@@ -41,7 +41,7 @@ class MatchSchedule extends Model
     /**
      * 試合区分テーブルとの結合
      */
-    public function match_category(): HasOne
+    public function matchCategory(): HasOne
     {
         return $this->HasOne(MatchCategory::class, 'match_category_id', 'match_category_id');
     }
