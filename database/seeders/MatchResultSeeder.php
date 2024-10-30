@@ -670,7 +670,7 @@ class MatchResultSeeder extends Seeder
             ['match_id' => 163, 'rank' => 4, 'player_id' => 16, 'point' => -57.1, 'penalty' => NULL,],
             ['match_id' => 164, 'rank' => 1, 'player_id' => 17, 'point' => 74.1, 'penalty' => NULL,],
             ['match_id' => 164, 'rank' => 2, 'player_id' => 2, 'point' => 27.1, 'penalty' => NULL,],
-            ['match_id' => 164, 'rank' => 3, 'player_id' => 15, 'point' => -31.5, 'penalty' => NULL,],
+            ['match_id' => 164, 'rank' => 3, 'player_id' => 13, 'point' => -31.5, 'penalty' => NULL,],
             ['match_id' => 164, 'rank' => 4, 'player_id' => 6, 'point' => -69.7, 'penalty' => NULL,],
             ['match_id' => 165, 'rank' => 1, 'player_id' => 0, 'point' => 0, 'penalty' => NULL,],
             ['match_id' => 165, 'rank' => 2, 'player_id' => 0, 'point' => 0, 'penalty' => NULL,],
