@@ -2,9 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\MatchCategory;
 use App\Models\MatchResult;
 use App\Models\Player;
 use App\Models\Season;
+use App\Models\Team;
 use App\Traits\CommonFunctionsTrait;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
@@ -27,31 +29,50 @@ class MatchResultIndexMiddleware
         // クエリパラメータが存在しない場合を考慮して、クエリパラメータの追加
         // 検索結果が0件になるように-1を指定している
         $this->addQueryParameter($request, [
+            'match_category_id' => 0,
+            'player_id' => 0,
             'season_id' => -1,
-            'player_id' => -1,
+            'team_id' => 0,
         ]);
 
         // マスタの取得
         $request->merge([
-            'seasons' => Season::get(),
+            'match_categories' => MatchCategory::get(),
             'players' => Player::get(),
+            'seasons' => Season::get(),
+            'teams' => Team::get(),
         ]);
 
         // 試合結果の取得
         $match_results = MatchResult::with([
-            'player',
-            'matchInformation',
+            'playerAffiliation.player',
+            'playerAffiliation.team:team_id,team_name,team_color_to_text',
             'matchInformation.matchSchedule',
             'matchInformation.matchSchedule.season',
+            'matchInformation.matchSchedule.matchCategory',
         ])
-        ->when($request->player_id, function (Builder $query) use ($request) {
-            $query->equalPlayerId($request->player_id);
-        })
-        ->when($request->season_id, function (Builder $query) use ($request) {
-            $query->whereHas('matchInformation.matchSchedule', function (Builder $query) use ($request) {
+        ->whereHas('matchInformation.matchSchedule', function (Builder $query) use ($request) { // 試合日テーブルとの結合
+            $query->when($request->season_id, function (Builder $query) use ($request) {
                 $query->equalSeasonId($request->season_id);
-            });
+            })
+            ->when($request->match_category_id, function (Builder $query) use ($request) {
+                $query->equalMatchCategoryId($request->match_category_id);
+            })
+            ;
         })
+        ->whereHas('playerAffiliation', function (Builder $query) use ($request) { // 選手所属テーブルとの結合
+            $query->when($request->team_id, function (Builder $query) use ($request) {
+                $query->equalTeamId($request->team_id);
+            })
+            ->when($request->player_id, function (Builder $query) use ($request) {
+                $query->equalPlayerId($request->player_id);
+            })
+            ->when($request->season_id, function (Builder $query) use ($request) {
+                $query->equalSeasonId($request->season_id);
+            })
+            ;
+        })
+        ->oldest('match_result_id')
         ->get()
         ;
 
