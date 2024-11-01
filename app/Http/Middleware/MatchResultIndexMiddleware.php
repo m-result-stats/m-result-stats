@@ -10,6 +10,7 @@ use App\Models\Team;
 use App\Traits\CommonFunctionsTrait;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -45,6 +46,9 @@ class MatchResultIndexMiddleware
 
         // 試合結果の取得
         $match_results = MatchResult::with([
+            'playerAffiliation' => function (HasOne $query) use ($request) {
+                $query->equalSeasonId($request->season_id);
+            },
             'playerAffiliation.player',
             'playerAffiliation.team:team_id,team_name,team_color_to_text',
             'matchInformation.matchSchedule',
