@@ -40,7 +40,7 @@ class MatchScheduleIndexMiddleware
         // 試合日程の取得
         $match_schedules = MatchSchedule::with([
             'season',
-            'match_category',
+            'matchCategory',
         ])
         ->when($request->season_id, function (Builder $query) use ($request) {
             $query->equalSeasonId($request->season_id);
