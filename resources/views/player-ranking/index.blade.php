@@ -67,15 +67,7 @@
                     'text-center',
                 ])>{{ $team_ranking->player->player_name }}</td>
                 {{-- チーム名 --}}
-                @php
-                    $background_color = "background-color: #{$team_ranking->playerAffiliation->team->team_color_to_text}";
-                @endphp
-                <td @class([
-                    'text-center',
-                ])
-                @style([
-                    $background_color,
-                ])>{{ $team_ranking->playerAffiliation->team->team_name }}</td>
+                <x-team-name :team-name="$team_ranking->playerAffiliation->team->team_name" :team-color="$team_ranking->playerAffiliation->team->team_color_to_text" />
                 <td @class([
                     'text-end',
                 ])>{{$team_ranking->match_count}}</td>

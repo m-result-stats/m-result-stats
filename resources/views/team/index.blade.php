@@ -22,7 +22,8 @@
             @foreach ($teams as $team)
             <tr>
                 <th scope="row">{{ $team->team_id }}</th>
-                <td>{{ $team->team_name }}</td>
+                {{-- チーム名 --}}
+                <x-team-name :team-name="$team->team_name" :team-color="$team->team_color_to_text" />
             </tr>
             @endforeach
         </x-slot>
