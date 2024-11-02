@@ -22,92 +22,84 @@
             ])>{{ __('Search') }}</button>
         </div>
     </form>
-    {{--  --}}
-    <div @class([
-        'table-responsive',
-    ])>
-        <table @class([
-            'table',
-            'table-hover',
-            'caption-top',
-        ])>
-            <caption>{{ __('PlayerRanking') }}</caption>
-            {{-- ヘッダー --}}
-            <thead>
-                <tr>
-                    <th @class([
-                        'text-center',
-                    ])>{{ __('Ranking') }}</th>
-                    <th @class([
-                        'text-center',
-                    ])>{{ __('PlayerName') }}</th>
-                    <th @class([
-                        'text-center',
-                    ])>{{ __('TeamName') }}</th>
-                    <th @class([
-                        'text-end',
-                    ])>{{ __('MatchCount') }}</th>
-                    <th @class([
-                        'text-end',
-                    ])>{{ __('Point') }}</th>
-                    <th @class([
-                        'text-end',
-                    ])>{{ __('TopRatio') }}</th>
-                    <th @class([
-                        'text-end',
-                    ])>{{ __('AvoidBottomRatio') }}</th>
-                    <th @class([
-                        'text-center',
-                    ])>{{ __('RankingBreakdown') }}</th>
-                </tr>
-            </thead>
-            {{-- 詳細 --}}
-            <tbody>
-                @foreach ($request->team_rankings as $team_ranking)
-                <tr>
-                    {{-- 順位 --}}
-                    <td @class([
-                        'text-center',
-                    ])>{{ $team_ranking->player_rank }}</td>
-                    {{-- 選手名 --}}
-                    <td @class([
-                        'text-center',
-                    ])>{{ $team_ranking->player->player_name }}</td>
-                    {{-- チーム名 --}}
-                    @php
-                        $background_color = "background-color: #{$team_ranking->playerAffiliation->team->team_color_to_text}";
-                    @endphp
-                    <td @class([
-                        'text-center',
-                    ])
-                    @style([
-                        $background_color,
-                    ])>{{ $team_ranking->playerAffiliation->team->team_name }}</td>
-                    <td @class([
-                        'text-end',
-                    ])>{{$team_ranking->match_count}}</td>
-                    {{-- ポイント --}}
-                    <td @class([
-                        'text-end',
-                        'text-danger' => $team_ranking->sum_point < 0, // マイナスポイントの場合は赤字にする
-                    ])>{{ $team_ranking->sum_point }}</td>
-                    {{-- トップ率 --}}
-                    <td @class([
-                        'text-end',
-                    ])>{{ $team_ranking->top_ratio }}</td>
-                    {{-- ラス回避率 --}}
-                    <td @class([
-                        'text-end',
-                    ])>{{ $team_ranking->avoid_bottom_ratio }}</td>
-                    {{-- 順位詳細 --}}
-                    <td @class([
-                        'text-center',
-                    ])>{{ $team_ranking->rank_detail }}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+
+    <x-table>
+        <x-slot:title>
+            {{ __('PlayerRanking') }}
+        </x-slot>
+
+        <x-slot:header>
+            <th @class([
+                'text-center',
+            ])>{{ __('Ranking') }}</th>
+            <th @class([
+                'text-center',
+            ])>{{ __('PlayerName') }}</th>
+            <th @class([
+                'text-center',
+            ])>{{ __('TeamName') }}</th>
+            <th @class([
+                'text-end',
+            ])>{{ __('MatchCount') }}</th>
+            <th @class([
+                'text-end',
+            ])>{{ __('Point') }}</th>
+            <th @class([
+                'text-end',
+            ])>{{ __('TopRatio') }}</th>
+            <th @class([
+                'text-end',
+            ])>{{ __('AvoidBottomRatio') }}</th>
+            <th @class([
+                'text-center',
+            ])>{{ __('RankingBreakdown') }}</th>
+        </x-slot>
+
+        <x-slot:body>
+            @foreach ($request->team_rankings as $team_ranking)
+            <tr>
+                {{-- 順位 --}}
+                <td @class([
+                    'text-center',
+                ])>{{ $team_ranking->player_rank }}</td>
+                {{-- 選手名 --}}
+                <td @class([
+                    'text-center',
+                ])>{{ $team_ranking->player->player_name }}</td>
+                {{-- チーム名 --}}
+                @php
+                    $background_color = "background-color: #{$team_ranking->playerAffiliation->team->team_color_to_text}";
+                @endphp
+                <td @class([
+                    'text-center',
+                ])
+                @style([
+                    $background_color,
+                ])>{{ $team_ranking->playerAffiliation->team->team_name }}</td>
+                <td @class([
+                    'text-end',
+                ])>{{$team_ranking->match_count}}</td>
+                {{-- ポイント --}}
+                <td @class([
+                    'text-end',
+                    'text-danger' => $team_ranking->sum_point < 0, // マイナスポイントの場合は赤字にする
+                ])>{{ $team_ranking->sum_point }}</td>
+                {{-- トップ率 --}}
+                <td @class([
+                    'text-end',
+                ])>{{ $team_ranking->top_ratio }}</td>
+                {{-- ラス回避率 --}}
+                <td @class([
+                    'text-end',
+                ])>{{ $team_ranking->avoid_bottom_ratio }}</td>
+                {{-- 順位詳細 --}}
+                <td @class([
+                    'text-center',
+                ])>{{ $team_ranking->rank_detail }}</td>
+            </tr>
+            @endforeach
+        </x-slot>
+    </x-table>
 </body>
 
 </html>

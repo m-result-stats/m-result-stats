@@ -22,33 +22,28 @@
             ])>{{ __('Search') }}</button>
         </div>
     </form>
-    <div @class([
-        'table-responsive',
-    ])>
-        <table @class([
-            'table',
-            'table-hover',
-            'caption-top',
-        ])>
-            <caption>{{ __('MatchSchedule') }}</caption>
-            <thead>
-                <tr>
-                    <th scope="col">{{ __('MatchDate') }}</th>
-                    <th>{{ __('Season') }}</th>
-                    <th>{{ __('MatchCategory') }}</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($request->match_schedules as $match_schedule)
-                <tr>
-                    <th scope="row">{{ $match_schedule->match_date_display }}</th>
-                    <td>{{ $match_schedule->season->season_name }}</td>
-                    <td>{{ $match_schedule->matchCategory->match_category_name }}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+
+    <x-table>
+        <x-slot:title>
+            {{ __('MatchSchedule') }}
+        </x-slot>
+
+        <x-slot:header>
+            <th scope="col">{{ __('MatchDate') }}</th>
+            <th>{{ __('Season') }}</th>
+            <th>{{ __('MatchCategory') }}</th>
+        </x-slot>
+
+        <x-slot:body>
+            @foreach ($request->match_schedules as $match_schedule)
+            <tr>
+                <th scope="row">{{ $match_schedule->match_date_display }}</th>
+                <td>{{ $match_schedule->season->season_name }}</td>
+                <td>{{ $match_schedule->matchCategory->match_category_name }}</td>
+            </tr>
+            @endforeach
+        </x-slot>
+    </x-table>
 </body>
 
 </html>
