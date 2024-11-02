@@ -43,7 +43,7 @@
                 <tr>
                     <th scope="row">{{ $match_schedule->match_date_display }}</th>
                     <td>{{ $match_schedule->season->season_name }}</td>
-                    <td>{{ $match_schedule->match_category->match_category_name }}</td>
+                    <td>{{ $match_schedule->matchCategory->match_category_name }}</td>
                 </tr>
                 @endforeach
             </tbody>
