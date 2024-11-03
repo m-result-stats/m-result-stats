@@ -35,9 +35,6 @@
             ])>{{ __('TeamName') }}</th>
             <th @class([
                 'text-end',
-            ])>{{ __('MatchCount') }}</th>
-            <th @class([
-                'text-end',
             ])>{{ __('Point') }}</th>
             <th @class([
                 'text-end',
@@ -45,6 +42,9 @@
             <th @class([
                 'text-end',
             ])>{{ __('AvoidBottomRatio') }}</th>
+            <th @class([
+                'text-end',
+            ])>{{ __('MatchCount') }}</th>
             <th @class([
                 'text-center',
             ])>{{ __('RankingBreakdown') }}</th>
@@ -63,9 +63,6 @@
                 ])>{{ $team_ranking->player->player_name }}</td>
                 {{-- チーム名 --}}
                 <x-team-name :team-name="$team_ranking->playerAffiliation->team->team_name" :team-color="$team_ranking->playerAffiliation->team->team_color_to_text" />
-                <td @class([
-                    'text-end',
-                ])>{{$team_ranking->match_count}}</td>
                 {{-- ポイント --}}
                 <x-point :point="$team_ranking->sum_point" />
                 {{-- トップ率 --}}
@@ -76,6 +73,10 @@
                 <td @class([
                     'text-end',
                 ])>{{ $team_ranking->avoid_bottom_ratio }}</td>
+                {{-- 試合数 --}}
+                <td @class([
+                    'text-end',
+                ])>{{$team_ranking->match_count}}</td>
                 {{-- 順位詳細 --}}
                 <td @class([
                     'text-center',

@@ -37,6 +37,9 @@
                 'text-end',
             ])>{{ __('PointGap') }}</th>
             <th @class([
+                'text-end',
+            ])>{{ __('MatchCount') }}</th>
+            <th @class([
                 'text-center',
             ])>{{ __('RankingBreakdown') }}</th>
         </x-slot>
@@ -67,6 +70,10 @@
                 @php
                     $sum_point_old = $team_ranking->sum_point;
                 @endphp
+                {{-- 試合数 --}}
+                <td @class([
+                    'text-end',
+                ])>{{ $team_ranking->match_count }}</td>
                 {{-- 順位詳細 --}}
                 <td @class([
                     'text-center',
