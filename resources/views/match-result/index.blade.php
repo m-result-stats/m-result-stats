@@ -89,10 +89,7 @@
                     $background_color,
                 ])>{{ $match_result->playerAffiliation->team->team_name }}</td>
                 {{-- ポイント --}}
-                <td @class([
-                    'text-end',
-                    'text-danger' => $match_result->point < 0, // マイナスポイントの場合は赤字にする
-                ])>{{ $match_result->point }}</td>
+                <x-point :point="$match_result->point" />
                 {{-- ペナルティ --}}
                 <td @class([
                     'text-end',

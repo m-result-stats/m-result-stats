@@ -57,10 +57,7 @@
                 {{-- チーム名 --}}
                 <x-team-name :team-name="$team_ranking->team->team_name" :team-color="$team_ranking->team->team_color_to_text" />
                 {{-- ポイント --}}
-                <td @class([
-                    'text-end',
-                    'text-danger' => $team_ranking->sum_point < 0, // マイナスポイントの場合は赤字にする
-                ])>{{ $team_ranking->sum_point }}</td>
+                <x-point :point="$team_ranking->sum_point" />
                 {{-- 差 --}}
                 <td @class([
                     'text-end',
