@@ -1,13 +1,8 @@
-<!doctype html>
-<html>
+<x-main>
+    <x-slot:title>
+        {{ __('Team') }}
+    </x-slot>
 
-<x-header title="{{ __('Team') }}" />
-
-<x-sidebar />
-
-<body data-bs-theme="dark" @class([
-    'container-lg',
-])>
     <x-table>
         <x-slot:title>
             {{ __('Team') }}
@@ -28,6 +23,4 @@
             @endforeach
         </x-slot>
     </x-table>
-</body>
-
-</html>
+</x-main>

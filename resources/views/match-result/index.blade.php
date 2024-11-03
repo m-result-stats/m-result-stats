@@ -1,13 +1,8 @@
-<!doctype html>
-<html>
+<x-main>
+    <x-slot:title>
+        {{ __('MatchResult') }}
+    </x-slot>
 
-<x-header title="{{ __('MatchResult') }}" />
-
-<x-sidebar />
-
-<body data-bs-theme="dark" @class([
-    'container-lg',
-])>
     <form action="{{ url()->current() }}" method="get">
         <div class="card card-body">
             {{-- シーズン --}}
@@ -99,6 +94,4 @@
             @endforeach
         </x-slot>
     </x-table>
-</body>
-
-</html>
+</x-main>
