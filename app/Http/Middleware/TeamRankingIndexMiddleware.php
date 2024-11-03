@@ -60,6 +60,9 @@ class TeamRankingIndexMiddleware
         ->selectRaw(
             'SUM(point + IFNULL(penalty, 0)) as sum_point', // ポイント
         )
+        ->selectRaw(
+            'COUNT(`rank`) as match_count', // 試合数
+        )
         ->when(true, function (Builder $query) {
             // 順位1-4を取得するSQLを生成
             for ($i = 1; $i < 5; $i++) {
