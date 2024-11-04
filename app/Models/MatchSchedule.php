@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\CommonFunctionsTrait;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MatchSchedule extends Model
 {
+    use CommonFunctionsTrait;
     use HasFactory;
     use SoftDeletes;
 
@@ -80,9 +82,7 @@ class MatchSchedule extends Model
     {
         return Attribute::make(
             get: function() {
-                $weeks = ['日','月','火','水','木','金','土',];
-                $week_name = $weeks[$this->match_date->format('w')];
-                return $this->match_date->format('Y-m-d') . '(' . $week_name . ')';
+                return "{$this->getWithWeekName($this->match_date)}";
             }
         );
     }

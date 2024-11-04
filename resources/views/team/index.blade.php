@@ -1,38 +1,26 @@
-<!doctype html>
-<html>
+<x-main>
+    <x-slot:title>
+        {{ __('Team') }}
+    </x-slot>
 
-<x-header title="{{ __('Team') }}" />
+    <x-table>
+        <x-slot:title>
+            {{ __('Team') }}
+        </x-slot>
 
-<x-sidebar />
+        <x-slot:header>
+            <th scope="col">@sortablelink('team_id', 'ID')</th>
+            <th scope="col">@sortablelink('team_name', 'チーム名')</th>
+        </x-slot>
 
-<body data-bs-theme="dark" @class([
-    'container-lg',
-])>
-    <div @class([
-        'table-responsive',
-    ])>
-        <table @class([
-            'table',
-            'table-hover',
-            'caption-top',
-        ])>
-            <caption>{{ __('Team') }}</caption>
-            <thead>
-                <tr>
-                    <th scope="col">@sortablelink('team_id', 'ID')</th>
-                    <th scope="col">@sortablelink('team_name', 'チーム名')</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($teams as $team)
-                <tr>
-                    <th scope="row">{{ $team->team_id }}</th>
-                    <td>{{ $team->team_name }}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-</body>
-
-</html>
+        <x-slot:body>
+            @foreach ($teams as $team)
+            <tr>
+                <th scope="row">{{ $team->team_id }}</th>
+                {{-- チーム名 --}}
+                <x-team-name :team-name="$team->team_name" :team-color="$team->team_color_to_text" />
+            </tr>
+            @endforeach
+        </x-slot>
+    </x-table>
+</x-main>

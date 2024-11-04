@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\CommonFunctionsTrait;
 use DateTime;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MatchInformation extends Model
 {
+    use CommonFunctionsTrait;
     use HasFactory;
     use SoftDeletes;
 
@@ -49,10 +51,7 @@ class MatchInformation extends Model
     {
         return Attribute::make(
             get: function (mixed $value, array $attributes) {
-                $weeks = ['日','月','火','水','木','金','土',];
-                $match_date = DateTime::createFromFormat('Y-m-d', $attributes['match_date']);
-                $week_name = $weeks[$match_date->format('w')];
-                return $match_date->format('Y-m-d') . '(' . $week_name . ')' . ' ' . '#' . $attributes['match_order'];
+                return "{$this->getWithWeekName($this->match_date)} #{$attributes['match_order']}";
             }
         );
     }

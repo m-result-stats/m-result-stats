@@ -1,13 +1,8 @@
-<!doctype html>
-<html>
+<x-main>
+    <x-slot:title>
+        {{ __('MatchResult') }}
+    </x-slot>
 
-<x-header title="{{ __('MatchResult') }}" />
-
-<x-sidebar />
-
-<body data-bs-theme="dark" @class([
-    'container-lg',
-])>
     <form action="{{ url()->current() }}" method="get">
         <div class="card card-body">
             {{-- シーズン --}}
@@ -28,85 +23,75 @@
             ])>{{ __('Search') }}</button>
         </div>
     </form>
-    <div @class([
-        'table-responsive',
-    ])>
-        <table @class([
-            'table',
-            'table-hover',
-            'caption-top',
-        ])>
-            <caption>{{ __('MatchResult') }}</caption>
-            <thead>
-                <tr>
-                    <th @class([
-                        'text-center',
-                    ])>{{ __('Season') }}</th>
-                    <th @class([
-                        'text-center',
-                    ])>{{ __('MatchCategory') }}</th>
-                    <th @class([
-                        'text-center',
-                    ])>{{ __('MatchDate') }}</th>
-                    <th @class([
-                        'text-center',
-                    ])>{{ __('Ranking') }}</th>
-                    <th @class([
-                        'text-center',
-                    ])>{{ __('PlayerName') }}</th>
-                    <th @class([
-                        'text-center',
-                    ])>{{ __('TeamName') }}</th>
-                    <th @class([
-                        'text-end',
-                    ])>{{ __('Point') }}</th>
-                    <th @class([
-                        'text-end',
-                    ])>{{ __('Penalty') }}</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($request->match_results as $match_result)
-                <tr>
-                    <td @class([
-                        'text-center',
-                    ])>{{ $match_result->matchInformation->matchSchedule->season->season_name }}</td>
-                    <td @class([
-                        'text-center',
-                    ])>{{ $match_result->matchInformation->matchSchedule->matchCategory->match_category_name }}</td>
-                    <td @class([
-                        'text-center',
-                    ])>{{ $match_result->matchInformation->match_date_order_display }}</td>
-                    <td @class([
-                        'text-center',
-                    ])>{{ $match_result->rank }}</td>
-                    <td @class([
-                        'text-center',
-                    ])>{{ $match_result->playerAffiliation->player->player_name}}</td>
-                    @php
-                        $background_color = "background-color: #{$match_result->playerAffiliation->team->team_color_to_text}";
-                    @endphp
-                    <td @class([
-                        'text-center',
-                    ])
-                    @style([
-                        $background_color,
-                    ])>{{ $match_result->playerAffiliation->team->team_name }}</td>
-                    {{-- ポイント --}}
-                    <td @class([
-                        'text-end',
-                        'text-danger' => $match_result->point < 0, // マイナスポイントの場合は赤字にする
-                    ])>{{ $match_result->point }}</td>
-                    {{-- ペナルティ --}}
-                    <td @class([
-                        'text-end',
-                        'text-danger',
-                    ])>{{ $match_result->penalty ?? null }}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-</body>
 
-</html>
+    <x-table>
+        <x-slot:title>
+            {{ __('MatchResult') }}
+        </x-slot>
+
+        <x-slot:header>
+            <th @class([
+                'text-center',
+            ])>{{ __('Season') }}</th>
+            <th @class([
+                'text-center',
+            ])>{{ __('MatchCategory') }}</th>
+            <th @class([
+                'text-center',
+            ])>{{ __('MatchDate') }}</th>
+            <th @class([
+                'text-center',
+            ])>{{ __('Ranking') }}</th>
+            <th @class([
+                'text-center',
+            ])>{{ __('PlayerName') }}</th>
+            <th @class([
+                'text-center',
+            ])>{{ __('TeamName') }}</th>
+            <th @class([
+                'text-end',
+            ])>{{ __('Point') }}</th>
+            <th @class([
+                'text-end',
+            ])>{{ __('Penalty') }}</th>
+        </x-slot>
+
+        <x-slot:body>
+            @foreach ($request->match_results as $match_result)
+            <tr>
+                <td @class([
+                    'text-center',
+                ])>{{ $match_result->matchInformation->matchSchedule->season->season_name }}</td>
+                <td @class([
+                    'text-center',
+                ])>{{ $match_result->matchInformation->matchSchedule->matchCategory->match_category_name }}</td>
+                <td @class([
+                    'text-center',
+                ])>{{ $match_result->matchInformation->match_date_order_display }}</td>
+                <td @class([
+                    'text-center',
+                ])>{{ $match_result->rank }}</td>
+                <td @class([
+                    'text-center',
+                ])>{{ $match_result->playerAffiliation->player->player_name}}</td>
+                @php
+                    $background_color = "background-color: #{$match_result->playerAffiliation->team->team_color_to_text}";
+                @endphp
+                <td @class([
+                    'text-center',
+                ])
+                @style([
+                    $background_color,
+                ])>{{ $match_result->playerAffiliation->team->team_name }}</td>
+                {{-- ポイント --}}
+                <x-point :point="$match_result->point" />
+                {{-- ペナルティ --}}
+                <td @class([
+                    'text-end',
+                    'text-danger',
+                ])>{{ $match_result->penalty ?? null }}</td>
+            </tr>
+            @endforeach
+        </x-slot>
+    </x-table>
+</x-main>

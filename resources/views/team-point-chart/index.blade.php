@@ -1,13 +1,8 @@
-<!doctype html>
-<html>
+<x-main>
+    <x-slot:title>
+        {{ __('TeamPointChart') }}
+    </x-slot>
 
-<x-header title="{{ __('TeamPointChart') }}" />
-
-<x-sidebar />
-
-<body data-bs-theme="dark" @class([
-    'container-lg',
-])>
     <form action="{{ url()->current() }}" method="get">
         <div class="card card-body">
             {{-- シーズン --}}
@@ -43,6 +38,4 @@
         };
         makeTeamPointChart('team-point-chart', data);
     </script>
-</body>
-
-</html>
+</x-main>
