@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             MatchScheduleSeeder::class,
             PlayerAffiliationSeeder::class,
             PlayerSeeder::class,
+            QualifyingLineSeeder::class,
             SeasonSeeder::class,
             TeamSeeder::class,
         ]);
