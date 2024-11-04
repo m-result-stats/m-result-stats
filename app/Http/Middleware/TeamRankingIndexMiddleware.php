@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\MatchCategory;
 use App\Models\MatchResult;
 use App\Models\PlayerAffiliation;
+use App\Models\QualifyingLine;
 use App\Models\Season;
 use App\Traits\CommonFunctionsTrait;
 use Closure;
@@ -36,6 +37,11 @@ class TeamRankingIndexMiddleware
         $request->merge([
             'seasons' => Season::get(),
             'match_categories' => MatchCategory::get(),
+            'qualifying_line' => QualifyingLine::select('*')
+                ->equalSeasonId($request->season_id)
+                ->equalMatchCategoryId($request->match_category_id)
+                ->first()
+            ,
         ]);
 
         // チームIDでグルーピングするために、結合用の成績所属テーブルの定義

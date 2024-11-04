@@ -1,4 +1,7 @@
 <x-main>
+    @php
+        $isShowQualifyingLine = $request->qualifying_line == null ? false : true;
+    @endphp
     <x-slot:title>
         {{ __('TeamRanking') }}
     </x-slot>
@@ -36,6 +39,11 @@
             <th @class([
                 'text-end',
             ])>{{ __('PointGap') }}</th>
+            @if ($isShowQualifyingLine)
+                <th @class([
+                    'text-end',
+                ])>{!! nl2br(e(__('QualifyingDifferencePoint'))) !!}</th>
+            @endif
             <th @class([
                 'text-end',
             ])>{{ __('MatchCount') }}</th>
@@ -70,6 +78,21 @@
                 @php
                     $sum_point_old = $team_ranking->sum_point;
                 @endphp
+                {{-- 通過までのポイント --}}
+                @if ($isShowQualifyingLine)
+                    {{-- 予選通過チーム順位が同じ場合に、予選通過チームポイントを格納する --}}
+                    @php
+                        if ($team_ranking->team_rank == $request->qualifying_line->qualifying_line_team_rank) {
+                            $qualifyingLineTeamPoint = $team_ranking->sum_point;
+                        }
+                    @endphp
+                    <x-qualifying-difference-point
+                    :team-rank="$team_ranking->team_rank"
+                    :sum-point="$team_ranking->sum_point"
+                    :qualifying-line-team-rank="$request->qualifying_line->qualifying_line_team_rank"
+                    :qualifying-line-team-point="$qualifyingLineTeamPoint ?? null"
+                    />
+                @endif
                 {{-- 試合数 --}}
                 <td @class([
                     'text-end',
