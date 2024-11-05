@@ -9,7 +9,7 @@
             <x-season-list :season-id="$request->season_id" :seasons="$request->seasons" />
 
             {{-- 試合カテゴリー --}}
-            <x-match-category-list :match-category-id="$request->match_category_id" :match-categories="$request->match_categories" />
+            <x-match-category-list :match-category-id="$request->match_category_id" :match-categories="$request->matchCategories" />
 
             <button type="submit" @class([
                 'btn',
@@ -21,11 +21,11 @@
     {{-- グラフ --}}
     <canvas id="teamPointChart"></canvas>
     <script type="module">
-        const labels = @json($request->target_match_dates);
+        const labels = @json($request->targetMatchDates);
         const data = {
             labels: labels,
             datasets: [
-                @foreach ($request->team_points as $key => $value)
+                @foreach ($request->teamPoints as $key => $value)
                 {
                     label: '{{ $value['team_name'] }}',
                     data: @json($value['points']),

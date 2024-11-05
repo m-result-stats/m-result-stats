@@ -31,12 +31,12 @@
         </x-slot>
 
         <x-slot:body>
-            @foreach ($request->player_affiliations as $player_affiliation)
+            @foreach ($request->playerAffiliations as $playerAffiliation)
             <tr>
-                <th scope="row">{{ $player_affiliation->player_affiliation_id }}</th>
-                <td>{{ $player_affiliation->player->player_name }}</td>
-                <td>{{ $player_affiliation->season->season_name }}</td>
-                <td>{{ $player_affiliation->team->team_name }}</td>
+                <th scope="row">{{ $playerAffiliation->playerAffiliation_id }}</th>
+                <td>{{ $playerAffiliation->player->player_name }}</td>
+                <td>{{ $playerAffiliation->season->season_name }}</td>
+                <td>{{ $playerAffiliation->team->team_name }}</td>
             </tr>
             @endforeach
         </x-slot>

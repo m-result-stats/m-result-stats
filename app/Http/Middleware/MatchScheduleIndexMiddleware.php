@@ -34,11 +34,11 @@ class MatchScheduleIndexMiddleware
         // マスタの取得
         $request->merge([
             'seasons' => Season::get(),
-            'match_categories' => MatchCategory::get(),
+            'matchCategories' => MatchCategory::get(),
         ]);
 
         // 試合日程の取得
-        $match_schedules = MatchSchedule::with([
+        $matchSchedules = MatchSchedule::with([
             'season',
             'matchCategory',
         ])
@@ -52,7 +52,7 @@ class MatchScheduleIndexMiddleware
         ;
 
         $request->merge([
-            'match_schedules' => $match_schedules,
+            'matchSchedules' => $matchSchedules,
         ]);
 
         return $next($request);

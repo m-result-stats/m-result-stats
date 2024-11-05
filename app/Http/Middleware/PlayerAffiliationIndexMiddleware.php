@@ -35,7 +35,7 @@ class PlayerAffiliationIndexMiddleware
         ]);
 
         // 選手所属一覧の取得
-        $player_affiliations = PlayerAffiliation::with([
+        $playerAffiliations = PlayerAffiliation::with([
             'player',
             'season',
             'team',
@@ -53,7 +53,7 @@ class PlayerAffiliationIndexMiddleware
         ;
 
         $request->merge([
-            'player_affiliations' => $player_affiliations,
+            'playerAffiliations' => $playerAffiliations,
         ]);
 
         return $next($request);

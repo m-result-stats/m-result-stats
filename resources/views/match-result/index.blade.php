@@ -9,7 +9,7 @@
             <x-season-list :season-id="$request->season_id" :seasons="$request->seasons" />
 
             {{-- 試合カテゴリ --}}
-            <x-match_category-list :match_category-id="$request->match_category_id" :match_categories="$request->match_categories" :is-add-empty=true />
+            <x-match_category-list :match_category-id="$request->match_category_id" :matchCategories="$request->matchCategories" :is-add-empty=true />
 
             {{-- チーム --}}
             <x-team-list :team-id="$request->team_id" :teams="$request->teams" :is-add-empty=true />
@@ -57,39 +57,39 @@
         </x-slot>
 
         <x-slot:body>
-            @foreach ($request->match_results as $match_result)
+            @foreach ($request->matchResults as $matchResult)
             <tr>
                 <td @class([
                     'text-center',
-                ])>{{ $match_result->matchInformation->matchSchedule->season->season_name }}</td>
+                ])>{{ $matchResult->matchInformation->matchSchedule->season->season_name }}</td>
                 <td @class([
                     'text-center',
-                ])>{{ $match_result->matchInformation->matchSchedule->matchCategory->match_category_name }}</td>
+                ])>{{ $matchResult->matchInformation->matchSchedule->matchCategory->match_category_name }}</td>
                 <td @class([
                     'text-center',
-                ])>{{ $match_result->matchInformation->match_date_order_display }}</td>
+                ])>{{ $matchResult->matchInformation->match_date_order_display }}</td>
                 <td @class([
                     'text-center',
-                ])>{{ $match_result->rank }}</td>
+                ])>{{ $matchResult->rank }}</td>
                 <td @class([
                     'text-center',
-                ])>{{ $match_result->playerAffiliation->player->player_name}}</td>
+                ])>{{ $matchResult->playerAffiliation->player->player_name}}</td>
                 @php
-                    $background_color = "background-color: #{$match_result->playerAffiliation->team->team_color_to_text}";
+                    $background_color = "background-color: #{$matchResult->playerAffiliation->team->team_color_to_text}";
                 @endphp
                 <td @class([
                     'text-center',
                 ])
                 @style([
                     $background_color,
-                ])>{{ $match_result->playerAffiliation->team->team_name }}</td>
+                ])>{{ $matchResult->playerAffiliation->team->team_name }}</td>
                 {{-- ポイント --}}
-                <x-point :point="$match_result->point" />
+                <x-point :point="$matchResult->point" />
                 {{-- ペナルティ --}}
                 <td @class([
                     'text-end',
                     'text-danger',
-                ])>{{ $match_result->penalty ?? null }}</td>
+                ])>{{ $matchResult->penalty ?? null }}</td>
             </tr>
             @endforeach
         </x-slot>

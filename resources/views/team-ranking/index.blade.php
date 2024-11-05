@@ -3,7 +3,7 @@
         // 予選通過ライン情報が存在する場合
         // - 通過までのポイントを表示
         // - 通過順位の枠線を変更してボーダーラインを表示
-        $isExistQualifyingLine = $request->qualifying_line == null ? false : true;
+        $isExistQualifyingLine = $request->qualifyingLine == null ? false : true;
     @endphp
     <x-slot:title>
         {{ __('TeamRanking') }}
@@ -15,7 +15,7 @@
             <x-season-list :season-id="$request->season_id" :seasons="$request->seasons" />
 
             {{-- 試合カテゴリー --}}
-            <x-match-category-list :match-category-id="$request->match_category_id" :match-categories="$request->match_categories" />
+            <x-match-category-list :match-category-id="$request->match_category_id" :match-categories="$request->matchCategories" />
 
             <button type="submit" @class([
                 'btn',
@@ -64,18 +64,18 @@
 
         {{-- 詳細 --}}
         <x:slot:body>
-            @foreach ($request->team_rankings as $team_ranking)
+            @foreach ($request->teamRankings as $teamRanking)
             <tr @class([
-                'border-bottom border-light' => $isExistQualifyingLine && $team_ranking->team_rank == $request->qualifying_line->qualifying_line_team_rank,
+                'border-bottom border-light' => $isExistQualifyingLine && $teamRanking->team_rank == $request->qualifyingLine->qualifying_line_team_rank,
             ]) class=" ">
                 {{-- 順位 --}}
                 <td @class([
                     'text-center',
-                ])>{{ $team_ranking->team_rank }}</td>
+                ])>{{ $teamRanking->team_rank }}</td>
                 {{-- チーム名 --}}
-                <x-team-name :team-name="$team_ranking->team->team_name" :team-color="$team_ranking->team->team_color_to_text" />
+                <x-team-name :team-name="$teamRanking->team->team_name" :team-color="$teamRanking->team->team_color_to_text" />
                 {{-- ポイント --}}
-                <x-point :point="$team_ranking->sum_point" />
+                <x-point :point="$teamRanking->sum_point" />
                 {{-- 差 --}}
                 <td @class([
                     'text-end',
@@ -84,35 +84,35 @@
                     @if ($loop->first)
                         {{ '-' }}
                     @else
-                        {{ bcsub($sum_point_old, $team_ranking->sum_point, 1) }}
+                        {{ bcsub($sum_point_old, $teamRanking->sum_point, 1) }}
                     @endif
                 </td>
                 @php
-                    $sum_point_old = $team_ranking->sum_point;
+                    $sum_point_old = $teamRanking->sum_point;
                 @endphp
                 {{-- 通過までのポイント --}}
                 @if ($isExistQualifyingLine)
                     {{-- 予選通過チーム順位が同じ場合に、予選通過チームポイントを格納する --}}
                     @php
-                        if ($team_ranking->team_rank == $request->qualifying_line->qualifying_line_team_rank) {
-                            $qualifyingLineTeamPoint = $team_ranking->sum_point;
+                        if ($teamRanking->team_rank == $request->qualifyingLine->qualifying_line_team_rank) {
+                            $qualifyingLineTeamPoint = $teamRanking->sum_point;
                         }
                     @endphp
                     <x-qualifying-difference-point
-                    :team-rank="$team_ranking->team_rank"
-                    :sum-point="$team_ranking->sum_point"
-                    :qualifying-line-team-rank="$request->qualifying_line->qualifying_line_team_rank"
+                    :team-rank="$teamRanking->team_rank"
+                    :sum-point="$teamRanking->sum_point"
+                    :qualifying-line-team-rank="$request->qualifyingLine->qualifying_line_team_rank"
                     :qualifying-line-team-point="$qualifyingLineTeamPoint ?? null"
                     />
                 @endif
                 {{-- 試合数 --}}
                 <td @class([
                     'text-end',
-                ])>{{ $team_ranking->match_count }}</td>
+                ])>{{ $teamRanking->match_count }}</td>
                 {{-- 順位詳細 --}}
                 <td @class([
                     'text-center',
-                ])>{{ $team_ranking->rank_detail }}</td>
+                ])>{{ $teamRanking->rank_detail }}</td>
             </tr>
             @endforeach
         </x:slot>

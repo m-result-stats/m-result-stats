@@ -36,8 +36,8 @@ class TeamRankingIndexMiddleware
         // マスタの取得
         $request->merge([
             'seasons' => Season::get(),
-            'match_categories' => MatchCategory::get(),
-            'qualifying_line' => QualifyingLine::select('*')
+            'matchCategories' => MatchCategory::get(),
+            'qualifyingLine' => QualifyingLine::select('*')
                 ->equalSeasonId($request->season_id)
                 ->equalMatchCategoryId($request->match_category_id)
                 ->first()
@@ -45,7 +45,7 @@ class TeamRankingIndexMiddleware
         ]);
 
         // チームIDでグルーピングするために、結合用の成績所属テーブルの定義
-        $player_affiliation = PlayerAffiliation::select(
+        $playerAffiliation = PlayerAffiliation::select(
             'player_id as player_id_pa',
             'team_id',
             'season_id',
@@ -54,7 +54,7 @@ class TeamRankingIndexMiddleware
         ;
 
         // チームランキングの取得
-        $team_rankings = MatchResult::with([
+        $teamRankings = MatchResult::with([
             'team',
         ])
         ->select(
@@ -76,7 +76,7 @@ class TeamRankingIndexMiddleware
                 $query->selectRaw($column);
             }
         })
-        ->joinSub($player_affiliation, 'pa', function (JoinClause $join) {
+        ->joinSub($playerAffiliation, 'pa', function (JoinClause $join) {
             $join->on('player_id', '=', 'pa.player_id_pa');
         })
         ->whereHas('matchInformation.matchSchedule', function (Builder $query) use ($request) {
@@ -91,7 +91,7 @@ class TeamRankingIndexMiddleware
         ;
 
         $request->merge([
-            'team_rankings' => $team_rankings,
+            'teamRankings' => $teamRankings,
         ]);
 
         return $next($request);

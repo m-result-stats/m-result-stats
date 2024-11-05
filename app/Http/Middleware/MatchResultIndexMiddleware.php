@@ -38,14 +38,14 @@ class MatchResultIndexMiddleware
 
         // マスタの取得
         $request->merge([
-            'match_categories' => MatchCategory::get(),
+            'matchCategories' => MatchCategory::get(),
             'players' => Player::get(),
             'seasons' => Season::get(),
             'teams' => Team::get(),
         ]);
 
         // 試合結果の取得
-        $match_results = MatchResult::with([
+        $matchResults = MatchResult::with([
             'playerAffiliation' => function (HasOne $query) use ($request) {
                 $query->equalSeasonId($request->season_id);
             },
@@ -81,7 +81,7 @@ class MatchResultIndexMiddleware
         ;
 
         $request->merge([
-            'match_results' => $match_results,
+            'matchResults' => $matchResults,
         ]);
 
         return $next($request);

@@ -38,12 +38,12 @@ class TeamPointChartMiddleware
         // マスタの取得
         $request->merge([
             'seasons' => Season::get(),
-            'match_categories' => MatchCategory::get(),
+            'matchCategories' => MatchCategory::get(),
         ]);
 
 
         // 検索条件から対象の試合日を配列にして取得する
-        $target_match_dates = (function () use ($request) {
+        $targetMatchDates = (function () use ($request) {
             $result = MatchSchedule::with([
             ])
             ->select(
@@ -64,7 +64,7 @@ class TeamPointChartMiddleware
         })();
 
         // チームID/試合日毎のポイントを取得
-        $team_points_per_match_date = (function () use ($request) {
+        $teamPointsPerMatchDate = (function () use ($request) {
             // チームIDでグルーピングするために、結合用の成績所属テーブルの定義
             $playerAffiliation = PlayerAffiliation::select(
                 'player_id as player_id_pa',
@@ -116,21 +116,21 @@ class TeamPointChartMiddleware
 
         // Chart.js用に
         // チーム情報+試合日毎の累計ポイントを配列に格納する
-        $team_points = (function () use ($team_points_per_match_date, $target_match_dates) {
+        $teamPoints = (function () use ($teamPointsPerMatchDate, $targetMatchDates) {
             $results = [];
             // チーム数LOOP
-            foreach ($team_points_per_match_date as $key => $team_point_per_match_date) {
+            foreach ($teamPointsPerMatchDate as $key => $teamPointPerMatchDate) {
                 // 試合日 => ポイント の連想配列に変換
-                $team_points_array = Arr::mapWithKeys($team_point_per_match_date->toArray(), function (array $items, int $key) {
+                $teamPointsArray = Arr::mapWithKeys($teamPointPerMatchDate->toArray(), function (array $items, int $key) {
                     return [$items['match_date'] => $items['sum_point']];
                 });
 
-                $team_points_per_match_date_for_graph = (function () use ($team_points_array, $target_match_dates) {
-                    $added = $team_points_array;
+                $teamPointsPerMatchDateForGraph = (function () use ($teamPointsArray, $targetMatchDates) {
+                    $added = $teamPointsArray;
 
                     // チーム毎に試合日が異なるため、試合日がないチームポイントは存在しない
                     // グラフ用に試合日がないところは0ポイントで追加する
-                    foreach ($target_match_dates as $key => $value) {
+                    foreach ($targetMatchDates as $key => $value) {
                         $added = Arr::add($added, $value, '0');
                     }
 
@@ -138,16 +138,16 @@ class TeamPointChartMiddleware
                     $sorted = collect($added)->sortKeysUsing('strnatcasecmp');
 
                     // 日付毎の累計ポイントを算出
-                    $total_point = '';
+                    $totalPoint = '';
                     foreach ($sorted as $key => $value) {
-                        $total_point = bcadd($total_point, $value, 1);
-                        $sorted[$key] = $total_point;
+                        $totalPoint = bcadd($totalPoint, $value, 1);
+                        $sorted[$key] = $totalPoint;
                     }
 
                     return $sorted;
                 })();
 
-                [$dates, $points] = Arr::divide($team_points_per_match_date_for_graph->toArray());
+                [$dates, $points] = Arr::divide($teamPointsPerMatchDateForGraph->toArray());
                 // グラフ用に配列を生成
                 // チームID
                 // チーム名
@@ -155,8 +155,8 @@ class TeamPointChartMiddleware
                 // 試合日毎の累計ポイント
                 $results[] = [
                     'team_id' => $key,
-                    'team_name' => data_get($team_point_per_match_date, '0.team.team_name'),
-                    'team_color' => data_get($team_point_per_match_date, '0.team.team_color_to_graph'),
+                    'team_name' => data_get($teamPointPerMatchDate, '0.team.team_name'),
+                    'team_color' => data_get($teamPointPerMatchDate, '0.team.team_color_to_graph'),
                     'points' => $points,
                 ];
             }
@@ -164,8 +164,8 @@ class TeamPointChartMiddleware
         })();
 
         $request->merge([
-            'team_points' => $team_points,
-            'target_match_dates' => $target_match_dates, // 対象の試合日
+            'teamPoints' => $teamPoints,
+            'targetMatchDates' => $targetMatchDates, // 対象の試合日
         ]);
 
         return $next($request);

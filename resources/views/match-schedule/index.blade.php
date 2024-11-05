@@ -9,7 +9,7 @@
             <x-season-list :season-id="$request->season_id" :seasons="$request->seasons" />
 
             {{-- 試合区分 --}}
-            <x-match-category-list :match-category-id="$request->match_category_id" :match-categories="$request->match_categories" />
+            <x-match-category-list :match-category-id="$request->match_category_id" :match-categories="$request->matchCategories" />
 
             <button type="submit" @class([
                 'btn',
@@ -30,11 +30,11 @@
         </x-slot>
 
         <x-slot:body>
-            @foreach ($request->match_schedules as $match_schedule)
+            @foreach ($request->matchSchedules as $matchSchedule)
             <tr>
-                <th scope="row">{{ $match_schedule->match_date_display }}</th>
-                <td>{{ $match_schedule->season->season_name }}</td>
-                <td>{{ $match_schedule->matchCategory->match_category_name }}</td>
+                <th scope="row">{{ $matchSchedule->match_date_display }}</th>
+                <td>{{ $matchSchedule->season->season_name }}</td>
+                <td>{{ $matchSchedule->matchCategory->match_category_name }}</td>
             </tr>
             @endforeach
         </x-slot>
