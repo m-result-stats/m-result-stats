@@ -2,7 +2,7 @@
     'row',
     'mb-3',
 ])>
-    <label for="match_category_id" @class([
+    <label for="matchCategoryId" @class([
         'col-sm-2',
         'col-form-label'
     ])>{{ __('MatchCategory') }}</label>
@@ -11,7 +11,7 @@
     ])>
         <select @class([
             'form-select'
-        ]) name="match_category_id" id="match_category_id">
+        ]) name="match_category_id" id="matchCategoryId">
             @if ($isAddEmpty) <option value=""></option> @endif
             @foreach ($matchCategories as $match_category)
                 <option value="{{ $match_category->match_category_id }}" @selected($matchCategoryId == $match_category->match_category_id)>

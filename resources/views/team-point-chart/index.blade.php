@@ -19,7 +19,7 @@
     </form>
 
     {{-- グラフ --}}
-    <canvas id="team-point-chart"></canvas>
+    <canvas id="teamPointChart"></canvas>
     <script type="module">
         const labels = @json($request->target_match_dates);
         const data = {
@@ -36,6 +36,6 @@
                 @endforeach
             ],
         };
-        makeTeamPointChart('team-point-chart', data);
+        makeTeamPointChart('teamPointChart', data);
     </script>
 </x-main>
