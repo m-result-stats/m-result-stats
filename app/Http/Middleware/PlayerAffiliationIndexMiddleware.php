@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\BlankInList;
 use App\Models\PlayerAffiliation;
 use App\Models\Season;
 use App\Models\Team;
@@ -24,8 +25,8 @@ class PlayerAffiliationIndexMiddleware
         // ここに前処理を記述
         // クエリパラメータが存在しない場合を考慮して、クエリパラメータの追加
         $this->addQueryParameter($request, [
-            'season_id' => -1,
-            'team_id' => -1,
+            'season_id' => BlankInList::NON->value,
+            'team_id' => BlankInList::NON->value,
         ]);
 
         // マスタの取得

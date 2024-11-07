@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\BlankInList;
 use App\Models\MatchCategory;
 use App\Models\MatchInformation;
 use App\Models\MatchResult;
@@ -31,8 +32,8 @@ class TeamPointChartMiddleware
         // ====================
         // クエリパラメータが存在しない場合を考慮して、クエリパラメータの追加
         $this->addQueryParameter($request, [
-            'season_id' => 0,
-            'match_category_id' => 0,
+            'season_id' => BlankInList::EXIST->value,
+            'match_category_id' => BlankInList::EXIST->value,
         ]);
 
         // マスタの取得
