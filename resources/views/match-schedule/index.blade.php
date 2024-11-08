@@ -18,9 +18,13 @@
         </div>
     </form>
 
+    {{-- 検索結果に対する見出し --}}
+    <x-search-result-headline
+    text-center="{{ __('MatchSchedule') }}"
+    />
+
     <x-table>
         <x-slot:title>
-            {{ __('MatchSchedule') }}
         </x-slot>
 
         <x-slot:header>

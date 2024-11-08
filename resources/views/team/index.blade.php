@@ -3,9 +3,13 @@
         {{ __('Team') }}
     </x-slot>
 
+    {{-- 検索結果に対する見出し --}}
+    <x-search-result-headline
+    text-center="{{ __('Team') }}"
+    />
+
     <x-table>
         <x-slot:title>
-            {{ __('Team') }}
         </x-slot>
 
         <x-slot:header>

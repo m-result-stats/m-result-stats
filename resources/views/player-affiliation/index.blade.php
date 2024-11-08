@@ -18,9 +18,13 @@
         </div>
     </form>
 
+    {{-- 検索結果に対する見出し --}}
+    <x-search-result-headline
+    text-center="{{ __('PlayerAffiliation') }}"
+    />
+
     <x-table>
         <x-slot:title>
-            {{ __('PlayerAffiliation') }}
         </x-slot>
 
         <x-slot:header>

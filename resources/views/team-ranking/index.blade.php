@@ -24,9 +24,13 @@
         </div>
     </form>
 
+    {{-- 検索結果に対する見出し --}}
+    <x-search-result-headline
+    text-center="{{ __('TeamRanking') }}"
+    />
+
     <x-table>
         <x-slot:title>
-            {{ __('TeamRanking') }}
         </x-slot>
         {{-- ヘッダー --}}
         <x-slot:header>
