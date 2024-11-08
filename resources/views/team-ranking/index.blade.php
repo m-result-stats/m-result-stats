@@ -27,6 +27,7 @@
     {{-- 検索結果に対する見出し --}}
     <x-search-result-headline
     text-center="{{ __('TeamRanking') }}"
+    :text-end="$request->matchLastDateDisplay"
     />
 
     <x-table>

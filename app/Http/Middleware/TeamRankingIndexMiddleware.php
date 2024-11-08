@@ -9,6 +9,7 @@ use App\Models\PlayerAffiliation;
 use App\Models\QualifyingLine;
 use App\Models\Season;
 use App\Traits\CommonFunctionsTrait;
+use App\Traits\MstatsFunctionsTrait;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\JoinClause;
@@ -18,6 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 class TeamRankingIndexMiddleware
 {
     use CommonFunctionsTrait;
+    use MstatsFunctionsTrait;
     /**
      * Handle an incoming request.
      *
@@ -93,6 +95,10 @@ class TeamRankingIndexMiddleware
 
         $request->merge([
             'teamRankings' => $teamRankings,
+            'matchLastDateDisplay' => $this->getMatchLastDateDisplay(
+                $request->season_id,
+                $request->match_category_id
+            ),
         ]);
 
         return $next($request);
