@@ -3,20 +3,14 @@
         {{ __('PlayerAffiliation') }}
     </x-slot>
 
-    <form action="{{ url()->current() }}" method="get">
-        <div class="card card-body">
-            {{-- チーム --}}
-            <x-team-list :team-id="$request->team_id" :teams="$request->teams" />
+    {{-- 検索条件 --}}
+    <x-search-condition>
+        {{-- チーム --}}
+        <x-team-list :team-id="$request->team_id" :teams="$request->teams" />
 
-            {{-- シーズン --}}
-            <x-season-list :season-id="$request->season_id" :seasons="$request->seasons" />
-
-            <button type="submit" @class([
-                'btn',
-                'btn-primary',
-            ])>{{ __('Search') }}</button>
-        </div>
-    </form>
+        {{-- シーズン --}}
+        <x-season-list :season-id="$request->season_id" :seasons="$request->seasons" />
+    </x-search-condition>
 
     {{-- 検索結果に対する見出し --}}
     <x-search-result-headline

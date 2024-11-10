@@ -3,26 +3,20 @@
         {{ __('MatchResult') }}
     </x-slot>
 
-    <form action="{{ url()->current() }}" method="get">
-        <div class="card card-body">
-            {{-- シーズン --}}
-            <x-season-list :season-id="$request->season_id" :seasons="$request->seasons" />
+    {{-- 検索条件 --}}
+    <x-search-condition>
+        {{-- シーズン --}}
+        <x-season-list :season-id="$request->season_id" :seasons="$request->seasons" />
 
-            {{-- 試合カテゴリ --}}
-            <x-match_category-list :match_category-id="$request->match_category_id" :matchCategories="$request->matchCategories" :is-add-empty=true />
+        {{-- 試合カテゴリ --}}
+        <x-match_category-list :match_category-id="$request->match_category_id" :matchCategories="$request->matchCategories" :is-add-empty=true />
 
-            {{-- チーム --}}
-            <x-team-list :team-id="$request->team_id" :teams="$request->teams" :is-add-empty=true />
+        {{-- チーム --}}
+        <x-team-list :team-id="$request->team_id" :teams="$request->teams" :is-add-empty=true />
 
-            {{-- 選手 --}}
-            <x-player-list :player-id="$request->player_id" :players="$request->players" :is-add-empty=true />
-
-            <button type="submit" @class([
-                'btn',
-                'btn-primary',
-            ])>{{ __('Search') }}</button>
-        </div>
-    </form>
+        {{-- 選手 --}}
+        <x-player-list :player-id="$request->player_id" :players="$request->players" :is-add-empty=true />
+    </x-search-condition>
 
     {{-- 検索結果に対する見出し --}}
     <x-search-result-headline

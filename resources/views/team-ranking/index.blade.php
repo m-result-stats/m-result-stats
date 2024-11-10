@@ -9,20 +9,14 @@
         {{ __('TeamRanking') }}
     </x-slot>
 
-    <form action="{{ url()->current() }}" method="get">
-        <div class="card card-body">
-            {{-- シーズン --}}
-            <x-season-list :season-id="$request->season_id" :seasons="$request->seasons" />
+    {{-- 検索条件 --}}
+    <x-search-condition>
+        {{-- シーズン --}}
+        <x-season-list :season-id="$request->season_id" :seasons="$request->seasons" />
 
-            {{-- 試合カテゴリー --}}
-            <x-match-category-list :match-category-id="$request->match_category_id" :match-categories="$request->matchCategories" />
-
-            <button type="submit" @class([
-                'btn',
-                'btn-primary',
-            ])>{{ __('Search') }}</button>
-        </div>
-    </form>
+        {{-- 試合カテゴリー --}}
+        <x-match-category-list :match-category-id="$request->match_category_id" :match-categories="$request->matchCategories" />
+    </x-search-condition>
 
     {{-- 検索結果に対する見出し --}}
     <x-search-result-headline
