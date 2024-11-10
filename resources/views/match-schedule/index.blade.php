@@ -3,24 +3,22 @@
         {{ __('MatchSchedule') }}
     </x-slot>
 
-    <form action="{{ url()->current() }}" method="get">
-        <div class="card card-body">
-            {{-- シーズン --}}
-            <x-season-list :season-id="$request->season_id" :seasons="$request->seasons" />
+    {{-- 検索条件 --}}
+    <x-search-condition>
+        {{-- シーズン --}}
+        <x-season-list :season-id="$request->season_id" :seasons="$request->seasons" />
 
-            {{-- 試合区分 --}}
-            <x-match-category-list :match-category-id="$request->match_category_id" :match-categories="$request->match_categories" />
+        {{-- 試合区分 --}}
+        <x-match-category-list :match-category-id="$request->match_category_id" :match-categories="$request->matchCategories" />
+    </x-search-condition>
 
-            <button type="submit" @class([
-                'btn',
-                'btn-primary',
-            ])>{{ __('Search') }}</button>
-        </div>
-    </form>
+    {{-- 検索結果に対する見出し --}}
+    <x-search-result-headline
+    text-center="{{ __('MatchSchedule') }}"
+    />
 
     <x-table>
         <x-slot:title>
-            {{ __('MatchSchedule') }}
         </x-slot>
 
         <x-slot:header>
@@ -30,11 +28,11 @@
         </x-slot>
 
         <x-slot:body>
-            @foreach ($request->match_schedules as $match_schedule)
+            @foreach ($request->matchSchedules as $matchSchedule)
             <tr>
-                <th scope="row">{{ $match_schedule->match_date_display }}</th>
-                <td>{{ $match_schedule->season->season_name }}</td>
-                <td>{{ $match_schedule->matchCategory->match_category_name }}</td>
+                <th scope="row">{{ $matchSchedule->match_date_display }}</th>
+                <td>{{ $matchSchedule->season->season_name }}</td>
+                <td>{{ $matchSchedule->matchCategory->match_category_name }}</td>
             </tr>
             @endforeach
         </x-slot>

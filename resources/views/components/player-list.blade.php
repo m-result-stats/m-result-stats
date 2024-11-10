@@ -2,7 +2,7 @@
     'row',
     'mb-3',
 ])>
-    <label for="player_id" @class([
+    <label for="playerId" @class([
         'col-sm-2',
         'col-form-label',
     ])>{{ __('PlayerName') }}</label>
@@ -11,7 +11,7 @@
     ])>
         <select @class([
             'form-select'
-        ]) name="player_id" id="player_id">
+        ]) name="player_id" id="playerId">
             @if ($isAddEmpty) <option value=""></option> @endif
             @foreach ($players as $player)
                 <option value="{{ $player->player_id }}" @selected($playerId == $player->player_id)>

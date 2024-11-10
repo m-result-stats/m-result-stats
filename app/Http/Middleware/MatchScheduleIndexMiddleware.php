@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\BlankInList;
 use App\Models\MatchCategory;
 use App\Models\MatchSchedule;
 use App\Models\Season;
@@ -27,18 +28,18 @@ class MatchScheduleIndexMiddleware
         // クエリパラメータが存在しない場合を考慮して、クエリパラメータの追加
         // 検索結果が0件になるように-1を指定している
         $this->addQueryParameter($request, [
-            'season_id' => -1,
-            'match_category_id' => -1,
+            'season_id' => BlankInList::NON->value,
+            'match_category_id' => BlankInList::NON->value,
         ]);
 
         // マスタの取得
         $request->merge([
             'seasons' => Season::get(),
-            'match_categories' => MatchCategory::get(),
+            'matchCategories' => MatchCategory::get(),
         ]);
 
         // 試合日程の取得
-        $match_schedules = MatchSchedule::with([
+        $matchSchedules = MatchSchedule::with([
             'season',
             'matchCategory',
         ])
@@ -52,7 +53,7 @@ class MatchScheduleIndexMiddleware
         ;
 
         $request->merge([
-            'match_schedules' => $match_schedules,
+            'matchSchedules' => $matchSchedules,
         ]);
 
         return $next($request);

@@ -2,7 +2,7 @@
     'row',
     'mb-3',
 ])>
-    <label for="season_id" @class([
+    <label for="seasonId" @class([
         'col-sm-2',
         'col-form-label'
     ])>{{ __('Season') }}</label>
@@ -11,7 +11,7 @@
     ])>
         <select @class([
             'form-select'
-        ]) name="season_id" id="season_id">
+        ]) name="season_id" id="seasonId">
             @if ($isAddEmpty) <option value=""></option> @endif
             @foreach ($seasons as $season)
                 <option value="{{ $season->season_id }}" @selected($seasonId == $season->season_id)>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\BlankInList;
 use App\Models\MatchCategory;
 use App\Models\MatchResult;
 use App\Models\Player;
@@ -30,22 +31,22 @@ class MatchResultIndexMiddleware
         // クエリパラメータが存在しない場合を考慮して、クエリパラメータの追加
         // 検索結果が0件になるように-1を指定している
         $this->addQueryParameter($request, [
-            'match_category_id' => 0,
-            'player_id' => 0,
-            'season_id' => -1,
-            'team_id' => 0,
+            'match_category_id' => BlankInList::EXIST->value,
+            'player_id' => BlankInList::EXIST->value,
+            'season_id' => BlankInList::NON->value,
+            'team_id' => BlankInList::EXIST->value,
         ]);
 
         // マスタの取得
         $request->merge([
-            'match_categories' => MatchCategory::get(),
+            'matchCategories' => MatchCategory::get(),
             'players' => Player::get(),
             'seasons' => Season::get(),
             'teams' => Team::get(),
         ]);
 
         // 試合結果の取得
-        $match_results = MatchResult::with([
+        $matchResults = MatchResult::with([
             'playerAffiliation' => function (HasOne $query) use ($request) {
                 $query->equalSeasonId($request->season_id);
             },
@@ -81,7 +82,7 @@ class MatchResultIndexMiddleware
         ;
 
         $request->merge([
-            'match_results' => $match_results,
+            'matchResults' => $matchResults,
         ]);
 
         return $next($request);

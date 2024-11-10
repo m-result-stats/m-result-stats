@@ -3,24 +3,22 @@
         {{ __('PlayerAffiliation') }}
     </x-slot>
 
-    <form action="{{ url()->current() }}" method="get">
-        <div class="card card-body">
-            {{-- チーム --}}
-            <x-team-list :team-id="$request->team_id" :teams="$request->teams" />
+    {{-- 検索条件 --}}
+    <x-search-condition>
+        {{-- チーム --}}
+        <x-team-list :team-id="$request->team_id" :teams="$request->teams" />
 
-            {{-- シーズン --}}
-            <x-season-list :season-id="$request->season_id" :seasons="$request->seasons" />
+        {{-- シーズン --}}
+        <x-season-list :season-id="$request->season_id" :seasons="$request->seasons" />
+    </x-search-condition>
 
-            <button type="submit" @class([
-                'btn',
-                'btn-primary',
-            ])>{{ __('Search') }}</button>
-        </div>
-    </form>
+    {{-- 検索結果に対する見出し --}}
+    <x-search-result-headline
+    text-center="{{ __('PlayerAffiliation') }}"
+    />
 
     <x-table>
         <x-slot:title>
-            {{ __('PlayerAffiliation') }}
         </x-slot>
 
         <x-slot:header>
@@ -31,12 +29,12 @@
         </x-slot>
 
         <x-slot:body>
-            @foreach ($request->player_affiliations as $player_affiliation)
+            @foreach ($request->playerAffiliations as $playerAffiliation)
             <tr>
-                <th scope="row">{{ $player_affiliation->player_affiliation_id }}</th>
-                <td>{{ $player_affiliation->player->player_name }}</td>
-                <td>{{ $player_affiliation->season->season_name }}</td>
-                <td>{{ $player_affiliation->team->team_name }}</td>
+                <th scope="row">{{ $playerAffiliation->playerAffiliation_id }}</th>
+                <td>{{ $playerAffiliation->player->player_name }}</td>
+                <td>{{ $playerAffiliation->season->season_name }}</td>
+                <td>{{ $playerAffiliation->team->team_name }}</td>
             </tr>
             @endforeach
         </x-slot>

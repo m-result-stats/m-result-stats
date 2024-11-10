@@ -2,11 +2,13 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\BlankInList;
 use App\Models\MatchCategory;
 use App\Models\MatchResult;
 use App\Models\PlayerAffiliation;
 use App\Models\Season;
 use App\Traits\CommonFunctionsTrait;
+use App\Traits\MstatsFunctionsTrait;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -17,6 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 class PlayerRankingIndexMiddleware
 {
     use CommonFunctionsTrait;
+    use MstatsFunctionsTrait;
     /**
      * Handle an incoming request.
      *
@@ -29,18 +32,18 @@ class PlayerRankingIndexMiddleware
         // ====================
         // クエリパラメータが存在しない場合を考慮して、クエリパラメータの追加
         $this->addQueryParameter($request, [
-            'season_id' => 0,
-            'match_category_id' => 0,
+            'season_id' => BlankInList::EXIST->value,
+            'match_category_id' => BlankInList::EXIST->value,
         ]);
 
         // マスタの取得
         $request->merge([
             'seasons' => Season::get(),
-            'match_categories' => MatchCategory::get(),
+            'matchCategories' => MatchCategory::get(),
         ]);
 
         // チームIDでグルーピングするために、結合用の成績所属テーブルの定義
-        $player_affiliation = PlayerAffiliation::select(
+        $playerAffiliation = PlayerAffiliation::select(
             'player_id as player_id_pa',
             'team_id',
             'season_id',
@@ -49,7 +52,7 @@ class PlayerRankingIndexMiddleware
         ;
 
         // チームランキングの取得
-        $team_rankings = MatchResult::with([
+        $teamRankings = MatchResult::with([
             'player',
             'playerAffiliation' => function (HasOne $query) use ($request) {
                 $query->equalSeasonId($request->season_id);
@@ -75,7 +78,7 @@ class PlayerRankingIndexMiddleware
                 $query->selectRaw($column);
             }
         })
-        ->joinSub($player_affiliation, 'pa', function (JoinClause $join) {
+        ->joinSub($playerAffiliation, 'pa', function (JoinClause $join) {
             $join->on('player_id', '=', 'pa.player_id_pa');
         })
         ->whereHas('matchInformation.matchSchedule', function (Builder $query) use ($request) {
@@ -88,7 +91,11 @@ class PlayerRankingIndexMiddleware
         ;
 
         $request->merge([
-            'team_rankings' => $team_rankings,
+            'teamRankings' => $teamRankings,
+            'matchLastDateDisplay' => $this->getMatchLastDateDisplay(
+                $request->season_id,
+                $request->match_category_id
+            ),
         ]);
 
         return $next($request);

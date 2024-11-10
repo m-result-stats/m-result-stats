@@ -3,24 +3,23 @@
         {{ __('PlayerRanking') }}
     </x-slot>
 
-    <form action="{{ url()->current() }}" method="get">
-        <div class="card card-body">
-            {{-- シーズン --}}
-            <x-season-list :season-id="$request->season_id" :seasons="$request->seasons" />
+    {{-- 検索条件 --}}
+    <x-search-condition>
+        {{-- シーズン --}}
+        <x-season-list :season-id="$request->season_id" :seasons="$request->seasons" />
 
-            {{-- 試合カテゴリー --}}
-            <x-match-category-list :match-category-id="$request->match_category_id" :match-categories="$request->match_categories" />
+        {{-- 試合カテゴリー --}}
+        <x-match-category-list :match-category-id="$request->match_category_id" :match-categories="$request->matchCategories" />
+    </x-search-condition>
 
-            <button type="submit" @class([
-                'btn',
-                'btn-primary',
-            ])>{{ __('Search') }}</button>
-        </div>
-    </form>
+    {{-- 検索結果に対する見出し --}}
+    <x-search-result-headline
+    text-center="{{ __('PlayerRanking') }}"
+    :text-end="$request->matchLastDateDisplay"
+    />
 
     <x-table>
         <x-slot:title>
-            {{ __('PlayerRanking') }}
         </x-slot>
 
         <x-slot:header>
@@ -51,36 +50,36 @@
         </x-slot>
 
         <x-slot:body>
-            @foreach ($request->team_rankings as $team_ranking)
+            @foreach ($request->teamRankings as $teamRanking)
             <tr>
                 {{-- 順位 --}}
                 <td @class([
                     'text-center',
-                ])>{{ $team_ranking->player_rank }}</td>
+                ])>{{ $teamRanking->player_rank }}</td>
                 {{-- 選手名 --}}
                 <td @class([
                     'text-center',
-                ])>{{ $team_ranking->player->player_name }}</td>
+                ])>{{ $teamRanking->player->player_name }}</td>
                 {{-- チーム名 --}}
-                <x-team-name :team-name="$team_ranking->playerAffiliation->team->team_name" :team-color="$team_ranking->playerAffiliation->team->team_color_to_text" />
+                <x-team-name :team-name="$teamRanking->playerAffiliation->team->team_name" :team-color="$teamRanking->playerAffiliation->team->team_color_to_text" />
                 {{-- ポイント --}}
-                <x-point :point="$team_ranking->sum_point" />
+                <x-point :point="$teamRanking->sum_point" />
                 {{-- トップ率 --}}
                 <td @class([
                     'text-end',
-                ])>{{ $team_ranking->top_ratio }}</td>
+                ])>{{ $teamRanking->top_ratio }}</td>
                 {{-- ラス回避率 --}}
                 <td @class([
                     'text-end',
-                ])>{{ $team_ranking->avoid_bottom_ratio }}</td>
+                ])>{{ $teamRanking->avoid_bottom_ratio }}</td>
                 {{-- 試合数 --}}
                 <td @class([
                     'text-end',
-                ])>{{$team_ranking->match_count}}</td>
+                ])>{{$teamRanking->match_count}}</td>
                 {{-- 順位詳細 --}}
                 <td @class([
                     'text-center',
-                ])>{{ $team_ranking->rank_detail }}</td>
+                ])>{{ $teamRanking->rank_detail }}</td>
             </tr>
             @endforeach
         </x-slot>
