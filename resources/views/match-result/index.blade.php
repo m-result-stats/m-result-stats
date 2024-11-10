@@ -86,7 +86,7 @@
                 {{-- ペナルティ --}}
                 <td @class([
                     'text-end',
-                    'text-danger',
+                    'text-danger-emphasis',
                 ])>{{ $matchResult->penalty ?? null }}</td>
             </tr>
             @endforeach
