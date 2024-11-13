@@ -1,5 +1,7 @@
 {
     "AvoidBottomRatio": "ラス回避率",
+    "IsCombineCarriedOverPoint": "レギュラーまたはセミファイナルの持ち越しポイントを合算する",
+    "IsCombineCarriedOverPointDescription": "持ち越しポイントを合算しない場合は、試合カテゴリ単体での成績となります",
     "MatchCategory": "試合カテゴリー",
     "MatchCount": "試合数",
     "MatchDate": "試合日",
