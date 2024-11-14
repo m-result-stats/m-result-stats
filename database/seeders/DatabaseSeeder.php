@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         // カッコ内でソートしてからコミットする
         $this->call([
+            CarriedOverPointSeeder::class,
             MatchCategorySeeder::class,
             MatchInformationSeeder::class,
             MatchResultSeeder::class,
