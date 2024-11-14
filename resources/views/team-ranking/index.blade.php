@@ -40,6 +40,14 @@
             <th @class([
                 'text-end',
                 'align-middle',
+            ])>{{ __('CarriedOverPoint') }}</th>
+            <th @class([
+                'text-end',
+                'align-middle',
+            ])>{{ __('PointInCategory') }}</th>
+            <th @class([
+                'text-end',
+                'align-middle',
             ])>{{ __('Point') }}</th>
             <th @class([
                 'text-end',
@@ -73,6 +81,10 @@
                 ])>{{ $teamRanking->team_rank }}</td>
                 {{-- チーム名 --}}
                 <x-team-name :team-name="$teamRanking->team->team_name" :team-color="$teamRanking->team->team_color_to_text" />
+                {{-- 持ち越しポイント --}}
+                <x-point :point="$teamRanking->carried_over_point" />
+                {{-- カテゴリ内ポイント --}}
+                <x-point :point="$teamRanking->point_in_category" />
                 {{-- ポイント --}}
                 <x-point :point="$teamRanking->sum_point" />
                 {{-- 差 --}}
