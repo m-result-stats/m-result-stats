@@ -5,8 +5,9 @@ import Chart from "chart.js/auto";
  *
  * @param {*} id
  * @param {*} data
+ * @param {*} startDateForGraph グラフ用の開始日付
  */
-window.makeTeamPointChart = function (id, data) {
+window.makeTeamPointChart = function (id, data, startDateForGraph) {
 
     /**
      * チームポイントを取得する
@@ -57,6 +58,10 @@ window.makeTeamPointChart = function (id, data) {
             scales: {
                 x: {
                     ticks: {
+                        callback: function(val, index) {
+                            // グラフ用の開始日付は目盛ラベルに表示しない
+                            return this.getLabelForValue(val) === startDateForGraph ? '' : this.getLabelForValue(val);
+                        },
                         color: '#ffffff',
                         font: {
                             size: 14,

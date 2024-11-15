@@ -30,6 +30,6 @@
                 @endforeach
             ],
         };
-        makeTeamPointChart('teamPointChart', data);
+        makeTeamPointChart('teamPointChart', data, '{{ $request->startDateForGraph }}');
     </script>
 </x-main>
