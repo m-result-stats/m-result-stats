@@ -97,7 +97,6 @@ class TeamRankingIndexMiddleware
         ])
         ->select(
             'team_id',
-            'carried_over_point',
             'point_in_category',
             'match_count',
             'rank1',
@@ -105,12 +104,21 @@ class TeamRankingIndexMiddleware
             'rank3',
             'rank4',
         )
-        ->selectRaw(
-            'carried_over_point + point_in_category as sum_point', // 合計ポイント
-        )
-        ->selectRaw(
-            'rank() OVER (ORDER BY carried_over_point + point_in_category DESC) AS team_rank', // チーム順位
-        )
+        ->when($request->is_combine_carried_over_point, function (Builder $query) { // 持ち越しポイント
+            $query->selectRaw('carried_over_point');
+        }, function (Builder $query) {
+            $query->selectRaw('0 as carried_over_point');
+        })
+        ->when($request->is_combine_carried_over_point, function (Builder $query) { // 合計ポイント
+            $query->selectRaw('carried_over_point + point_in_category as sum_point');
+        }, function (Builder $query) {
+            $query->selectRaw('0 + point_in_category as sum_point');
+        })
+        ->when($request->is_combine_carried_over_point, function (Builder $query) { // チーム順位
+            $query->selectRaw('rank() OVER (ORDER BY carried_over_point + point_in_category DESC) AS team_rank');
+        }, function (Builder $query) {
+            $query->selectRaw('rank() OVER (ORDER BY 0 + point_in_category DESC) AS team_rank');
+        })
         ->joinSub($teamPointInCategory, 'tr', function (JoinClause $join) { // カテゴリ内チームポイントとの結合
             $join->on('team_id', '=', 'tr.team_id_tr');
         })
