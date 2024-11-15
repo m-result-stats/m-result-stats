@@ -3,6 +3,8 @@
 namespace App\Http\Middleware;
 
 use App\Enums\BlankInList;
+use App\Enums\Date;
+use App\Models\CarriedOverPoint;
 use App\Models\MatchCategory;
 use App\Models\MatchInformation;
 use App\Models\MatchResult;
@@ -38,6 +40,7 @@ class TeamPointChartMiddleware
 
         // マスタの取得
         $request->merge([
+            'startDateForGraph' => Date::START_FOR_GRAPH->value,
             'seasons' => Season::get(),
             'matchCategories' => MatchCategory::get(),
         ]);
@@ -60,8 +63,8 @@ class TeamPointChartMiddleware
             ->get()
             ->toArray()
             ;
-            // 連想配列からただの配列に変更
-            return Arr::flatten($result);
+            // グラフ用の開始日付を追加して、連想配列からただの配列に変更
+            return Arr::flatten(collect([Date::START_FOR_GRAPH->value])->merge($result)->toArray());
         })();
 
         // チームID/試合日毎のポイントを取得
@@ -82,8 +85,26 @@ class TeamPointChartMiddleware
             )
             ;
 
+            // チームID毎の持ち越しポイントを取得
+            $carriedOverPoints = CarriedOverPoint::with([
+                'team:team_id,team_name,team_color_to_graph',
+            ])
+            ->select(
+                'team_id',
+                'carried_over_point as sum_point',
+            )
+            ->selectRaw(
+                '? as match_date', [Date::START_FOR_GRAPH->value]
+            )
+            ->equalSeasonId($request->season_id) // シーズンでの絞り込み
+            ->equalMatchCategoryId($request->match_category_id) // 試合カテゴリーでの絞り込み
+            ->orderBy('team_id')
+            ->get()
+            ->toArray()
+            ;
+
             // チームID/試合日毎のポイントを取得
-            $result = MatchResult::with([
+            $matchResults = MatchResult::with([
                 'team:team_id,team_name,team_color_to_graph',
             ])
             ->select(
@@ -112,7 +133,7 @@ class TeamPointChartMiddleware
             ;
 
             // 取得したポイント情報をチーム毎の配列に変換
-            return collect($result)->groupBy('team_id');
+            return collect($carriedOverPoints)->merge($matchResults)->groupBy('team_id');
         })();
 
         // Chart.js用に

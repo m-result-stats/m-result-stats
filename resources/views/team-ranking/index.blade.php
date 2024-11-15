@@ -16,6 +16,9 @@
 
         {{-- 試合カテゴリー --}}
         <x-match-category-list :match-category-id="$request->match_category_id" :match-categories="$request->matchCategories" />
+
+        {{-- 持ち越しポイントを合算する --}}
+        <x-is-combine-carried-over-point :is-combine_carried_over_point="$request->is_combine_carried_over_point" />
     </x-search-condition>
 
     {{-- 検索結果に対する見出し --}}
@@ -37,6 +40,17 @@
                 'text-center',
                 'align-middle',
             ])>{{ __('TeamName') }}</th>
+            {{-- ポイントを合算する場合に表示する --}}
+            @if ($request->is_combine_carried_over_point)
+                <th @class([
+                    'text-end',
+                    'align-middle',
+                ])>{{ __('CarriedOverPoint') }}</th>
+                <th @class([
+                    'text-end',
+                    'align-middle',
+                ])>{{ __('PointInCategory') }}</th>
+            @endif
             <th @class([
                 'text-end',
                 'align-middle',
@@ -73,6 +87,13 @@
                 ])>{{ $teamRanking->team_rank }}</td>
                 {{-- チーム名 --}}
                 <x-team-name :team-name="$teamRanking->team->team_name" :team-color="$teamRanking->team->team_color_to_text" />
+                {{-- ポイントを合算する場合に表示する --}}
+                @if ($request->is_combine_carried_over_point)
+                    {{-- 持ち越しポイント --}}
+                    <x-point :point="$teamRanking->carried_over_point" />
+                    {{-- カテゴリ内ポイント --}}
+                    <x-point :point="$teamRanking->point_in_category" />
+                @endif
                 {{-- ポイント --}}
                 <x-point :point="$teamRanking->sum_point" />
                 {{-- 差 --}}
