@@ -14,6 +14,12 @@
 
     {{-- グラフ --}}
     <canvas id="teamPointChart"></canvas>
+
+    <button id="resetZoomButton" @class([
+        'btn',
+        'btn-info',
+    ])>{{ __('ResetZoom') }}</button>
+
     <script type="module">
         const labels = @json($request->targetMatchDates);
         const data = {
