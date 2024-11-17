@@ -1,4 +1,21 @@
 import Chart from "chart.js/auto";
+import zoomPlugin from 'chartjs-plugin-zoom'; // zoomプラグインのインポート
+
+// プラグインを登録
+Chart.register(zoomPlugin);
+
+/**
+ * グラフ用のID
+ */
+window.idForGraph = '';
+/**
+ * グラフ用の開始日付
+ */
+window.startDateForGraph = '';
+/**
+ * グラフ用のデータ
+ */
+window.dataForGraph = '';
 
 /**
  * チームポイント推移表を生成する
@@ -39,7 +56,7 @@ window.makeTeamPointChart = function (id, data, startDateForGraph) {
     };
 
     const ctx = document.getElementById(id);
-    const myChart = new Chart(ctx, {
+    return new Chart(ctx, {
         type: "line",
         data: data,
         options: {
@@ -53,7 +70,23 @@ window.makeTeamPointChart = function (id, data, startDateForGraph) {
                         padding: 20,
                         sort: sortLegend,
                     }
-                }
+                },
+                zoom: {
+                    pan: {
+                        enabled: true,
+                        mode: 'xy',
+                        threshold: 5,
+                    },
+                    zoom: {
+                        wheel: {
+                            enabled: true
+                        },
+                        pinch: {
+                            enabled: true
+                        },
+                        mode: 'xy',
+                    },
+                },
             },
             scales: {
                 x: {
@@ -86,3 +119,14 @@ window.makeTeamPointChart = function (id, data, startDateForGraph) {
         },
     });
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+    // グラフの初期化
+    const myChart = globalThis.makeTeamPointChart(window.idForGraph, window.dataForGraph, window.startDateForGraph);
+
+    // リセットボタン
+    const resetButton = document.getElementById('resetZoomButton');
+    resetButton.addEventListener('click', () => {
+        myChart.resetZoom();
+    });
+});

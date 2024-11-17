@@ -36,6 +36,10 @@
                 @endforeach
             ],
         };
-        makeTeamPointChart('teamPointChart', data, '{{ $request->startDateForGraph }}');
+        // グラフの初期化に必要な値のセット
+        // 初期化はDOMContentLoadedイベントにて実施している
+        idForGraph = 'teamPointChart';
+        startDateForGraph = '{{ $request->startDateForGraph }}';
+        dataForGraph = data;
     </script>
 </x-main>
