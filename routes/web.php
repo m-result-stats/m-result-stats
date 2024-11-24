@@ -7,12 +7,14 @@ use App\Http\Controllers\PlayerRankingController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeamPointChartController;
 use App\Http\Controllers\TeamRankingController;
+use App\Http\Controllers\TeamStatsController;
 use App\Http\Middleware\PlayerAffiliationIndexMiddleware;
 use App\Http\Middleware\MatchScheduleIndexMiddleware;
 use App\Http\Middleware\MatchResultIndexMiddleware;
 use App\Http\Middleware\PlayerRankingIndexMiddleware;
 use App\Http\Middleware\TeamPointChartMiddleware;
 use App\Http\Middleware\TeamRankingIndexMiddleware;
+use App\Http\Middleware\TeamStatsIndexMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -49,6 +51,13 @@ route::get('/team-ranking', [TeamRankingController::class, 'index'])
         TeamRankingIndexMiddleware::class
     ])->
     name('team-ranking');
+
+// チームスタッツ
+route::get('/team-stats', [TeamStatsController::class, 'index'])
+    ->middleware([
+        TeamStatsIndexMiddleware::class
+    ])->
+    name('team-stats');
 
 // チームポイントチャート
 route::get('/team-point-chart', [TeamPointChartController::class, 'index'])
