@@ -87,7 +87,7 @@ class TeamPointChartMiddleware
 
             // チームID毎の持ち越しポイントを取得
             $carriedOverPoints = CarriedOverPoint::with([
-                'team:team_id,team_name,team_color_to_graph',
+                'team:team_id,team_name_shortened,team_color_to_graph',
             ])
             ->select(
                 'team_id',
@@ -174,7 +174,7 @@ class TeamPointChartMiddleware
                 // 試合日毎の累計ポイント
                 $results[] = [
                     'team_id' => $key,
-                    'team_name' => data_get($teamPointPerMatchDate, '0.team.team_name'),
+                    'team_name' => data_get($teamPointPerMatchDate, '0.team.team_name_shortened'),
                     'team_color' => data_get($teamPointPerMatchDate, '0.team.team_color_to_graph'),
                     'points' => $points,
                 ];
