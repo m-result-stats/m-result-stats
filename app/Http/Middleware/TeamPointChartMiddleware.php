@@ -104,10 +104,7 @@ class TeamPointChartMiddleware
             ;
 
             // チームID/試合日毎のポイントを取得
-            $matchResults = MatchResult::with([
-                'team:team_id,team_name,team_color_to_graph',
-            ])
-            ->select(
+            $matchResults = MatchResult::select(
                 'team_id',
                 'match_date',
             )
