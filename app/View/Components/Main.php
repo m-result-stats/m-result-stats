@@ -10,8 +10,12 @@ class Main extends Component
 {
     /**
      * Create a new component instance.
+     *
+     * @param string $dataPage データページ(ページ識別用)
      */
-    public function __construct()
+    public function __construct(
+        public ?string $dataPage,
+    )
     {
         //
     }

@@ -1,4 +1,5 @@
 import './bootstrap';
+import './chart-parameter.js';
 import './team-point-chart.js';
 
 import * as bootstrap from 'bootstrap';
