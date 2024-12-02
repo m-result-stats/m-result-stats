@@ -5,19 +5,6 @@ import zoomPlugin from 'chartjs-plugin-zoom'; // zoomプラグインのインポ
 Chart.register(zoomPlugin);
 
 /**
- * グラフ用のID
- */
-window.idForGraph = '';
-/**
- * グラフ用の開始日付
- */
-window.startDateForGraph = '';
-/**
- * グラフ用のデータ
- */
-window.dataForGraph = '';
-
-/**
  * チームポイント推移表を生成する
  *
  * @param {*} id
@@ -121,11 +108,19 @@ window.makeTeamPointChart = function (id, data, startDateForGraph) {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    if (document.body.dataset.page != 'teamPointChart') {
+        return;
+    }
+
     // グラフの初期化
     const myChart = globalThis.makeTeamPointChart(window.idForGraph, window.dataForGraph, window.startDateForGraph);
 
     // リセットボタン
     const resetButton = document.getElementById('resetZoomButton');
+    if (resetButton == null) {
+        return;
+    }
     resetButton.addEventListener('click', () => {
         myChart.resetZoom();
     });
