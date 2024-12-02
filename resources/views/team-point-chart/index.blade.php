@@ -1,4 +1,4 @@
-<x-main>
+<x-main data-page="teamPointChart">
     <x-slot:title>
         {{ __('TeamPointChart') }}
     </x-slot>
