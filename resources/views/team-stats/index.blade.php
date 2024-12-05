@@ -21,8 +21,44 @@
         <x-team-list :team-id="$request->team_id" :teams="$request->teams" />
     </x-search-condition>
 
-    {{-- 検索結果に対する見出し --}}
-    <x-search-result-headline
-    :text-end="$request->matchLastDateDisplay"
-    />
+    {{-- グラフ --}}
+    <canvas id="teamStatsChart"></canvas>
+
+    <button id="resetZoomButton" @class([
+        'btn',
+        'btn-info',
+    ])>{{ __('ResetZoom') }}</button>
+
+    <script type="module">
+        const labels = @json($request->matchDates);
+        const data = {
+            labels: labels,
+            datasets: [
+                {
+                    label: '{{ __('Point') }}',
+                    data: @json($request->sumPoints),
+                    borderColor: '',
+                    backgroundColor: '',
+                    yAxisID: 'y',
+                    pointRadius: 3,
+                },
+                {
+                    label: '{{ __('Ranking') }}',
+                    data: @json($request->ranks),
+                    borderColor: '',
+                    backgroundColor: '',
+                    yAxisID: 'y1',
+                    pointRadius: 3,
+                    borderDash: [3, 5],
+                }
+            ],
+        };
+        // グラフの初期化に必要な値のセット
+        // 初期化はDOMContentLoadedイベントにて実施している
+        idForGraph = 'teamStatsChart';
+        startDateForGraph = '{{ $request->startDateForGraph }}';
+        dataForGraph = data;
+        titleTextForGraph = '{{ $request->teamName }}';
+        teamCountForGraph = {{ $request->teamCount }};
+    </script>
 </x-main>
