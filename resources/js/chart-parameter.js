@@ -3,6 +3,10 @@
  */
 
 /**
+ * グラフ用のタイトルテキスト
+ */
+window.titleTextForGraph = '';
+/**
  * グラフ用のID
  */
 window.idForGraph = '';
@@ -14,3 +18,7 @@ window.startDateForGraph = '';
  * グラフ用のデータ
  */
 window.dataForGraph = '';
+/**
+ * グラフ用のチーム数
+ */
+window.teamCountForGraph = '';
