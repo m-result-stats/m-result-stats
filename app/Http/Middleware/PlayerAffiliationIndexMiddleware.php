@@ -49,7 +49,7 @@ class PlayerAffiliationIndexMiddleware
         })
         ->orderBy('team_id')
         ->orderBy('season_id')
-        ->orderBy('player_id')
+        ->orderBy('view_order')
         ->get()
         ;
 

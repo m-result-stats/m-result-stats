@@ -5,11 +5,10 @@
 
     {{-- 検索条件 --}}
     <x-search-condition>
-        {{-- チーム --}}
-        <x-team-list :team-id="$request->team_id" :teams="$request->teams" />
-
         {{-- シーズン --}}
         <x-season-list :season-id="$request->season_id" :seasons="$request->seasons" />
+        {{-- チーム --}}
+        <x-team-list :team-id="$request->team_id" :teams="$request->teams" :is-add-empty=true />
     </x-search-condition>
 
     {{-- 検索結果に対する見出し --}}
@@ -22,19 +21,30 @@
         </x-slot>
 
         <x-slot:header>
-            <th>ID</th>
-            <th scope="col">{{ __('PlayerName') }}</th>
-            <th scope="col">{{ __('Season') }}</th>
-            <th scope="col">{{ __('TeamName') }}</th>
+            <th @class([
+                'text-center',
+            ])>{{ __('Season') }}</th>
+            <th @class([
+                'text-center',
+            ])>{{ __('TeamName') }}</th>
+            <th @class([
+                'text-center',
+            ])>{{ __('PlayerName') }}</th>
         </x-slot>
 
         <x-slot:body>
             @foreach ($request->playerAffiliations as $playerAffiliation)
             <tr>
-                <th scope="row">{{ $playerAffiliation->playerAffiliation_id }}</th>
-                <td>{{ $playerAffiliation->player->player_name }}</td>
-                <td>{{ $playerAffiliation->season->season_name }}</td>
-                <td>{{ $playerAffiliation->team->team_name }}</td>
+                {{-- シーズン --}}
+                <td @class([
+                    'text-center',
+                ])>{{ $playerAffiliation->season->season_name }}</td>
+                {{-- チーム名 --}}
+                <x-team-name :team-name="$playerAffiliation->team->team_name" :team-color="$playerAffiliation->team->team_color_to_text" />
+                {{-- 選手名 --}}
+                <td @class([
+                    'text-center',
+                ])>{{ $playerAffiliation->player->player_name }}</td>
             </tr>
             @endforeach
         </x-slot>
